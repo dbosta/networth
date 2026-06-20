@@ -707,7 +707,7 @@ input{font-family:inherit}
                 <sc-if value="{{ compareWaiting }}" hint-placeholder-val="{{ true }}"><div style="font-size:11px;color:var(--muted);margin-top:11px">B noktasını seçmek için grafikte ikinci bir tarihe tıkla.</div></sc-if>
                 <sc-if value="{{ compareReady }}" hint-placeholder-val="{{ false }}">
                   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:8px;margin-top:10px"><div style="background:var(--card);border-radius:8px;padding:9px 11px"><div style="font-size:9px;color:var(--faint);text-transform:uppercase">Dönem</div><div style="font-size:13px;font-weight:700;margin-top:3px">{{ comparePeriod }}</div></div><div style="background:var(--card);border-radius:8px;padding:9px 11px"><div style="font-size:9px;color:var(--faint);text-transform:uppercase">Net değişim</div><div style="font-size:13px;font-weight:700;margin-top:3px">{{ compareChange }} · {{ compareChangePct }}</div></div><div style="background:var(--card);border-radius:8px;padding:9px 11px"><div style="font-size:9px;color:var(--faint);text-transform:uppercase">Yeni yatırım</div><div style="font-size:13px;font-weight:700;margin-top:3px">{{ compareInvested }}</div></div><div style="background:var(--card);border-radius:8px;padding:9px 11px"><div style="font-size:9px;color:var(--faint);text-transform:uppercase">{{ compareCrossLabel }}</div><div style="font-size:13px;font-weight:700;margin-top:3px">{{ compareCrossChange }}</div></div></div>
-                  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:7px;margin-top:10px"><sc-for list="{{ compareAssetRows }}" as="cr" hint-placeholder-count="5"><div style="display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--card);border-radius:7px;padding:8px 10px"><span style="display:flex;align-items:center;gap:6px;font-size:10px;color:var(--muted)"><span style="width:7px;height:7px;border-radius:2px;background:{{ cr.color }}"></span>{{ cr.name }}</span><span style="text-align:right;font-size:10px"><span style="color:var(--faint)">Eski {{ cr.start }}</span><br><span style="font-weight:700;color:var(--ink)">Artış {{ cr.diff }}</span><span style="color:var(--faint);font-weight:500"> · {{ cr.pct }}</span></span></div></sc-for></div>
+                  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;margin-top:10px"><sc-for list="{{ compareAssetRows }}" as="cr" hint-placeholder-count="5"><div style="background:var(--card);border-radius:8px;padding:10px 11px;min-width:0"><div style="display:flex;align-items:center;gap:7px;font-size:11px;font-weight:600;color:var(--muted);min-width:0"><span style="width:8px;height:8px;border-radius:2px;flex:none;background:{{ cr.color }}"></span><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ cr.name }}</span></div><div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;margin-top:9px;padding-top:8px;border-top:1px solid var(--line)"><div style="min-width:0"><div style="font-size:8px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em">Eski değer</div><div style="font-size:11px;font-weight:600;margin-top:3px;white-space:nowrap">{{ cr.start }}</div></div><div style="min-width:0;text-align:right"><div style="font-size:8px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em">Artış</div><div style="font-size:11px;font-weight:700;margin-top:3px;white-space:nowrap">{{ cr.diff }}</div><div style="font-size:9px;color:var(--faint);margin-top:2px">{{ cr.pct }}</div></div></div></div></sc-for></div>
                 </sc-if>
               </div>
             </sc-if>
@@ -740,11 +740,12 @@ input{font-family:inherit}
           </div>
 
           <div style="margin-top:14px;border:1px solid var(--line);border-radius:14px;background:var(--card);padding:18px 20px;overflow:auto">
-            <div style="font-size:14px;font-weight:600">Varlık bazlı senaryolar</div>
-            <div style="font-size:11px;color:var(--muted);margin-top:4px;margin-bottom:12px">Her varlık kendi oynaklık profiliyle değerlendirilir; mevduat ile hisse aynı risk aralığını kullanmaz.</div>
-            <div style="min-width:500px">
-              <div style="display:grid;grid-template-columns:1.5fr repeat(3,1fr);gap:10px;padding:0 8px 7px;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--faint);font-weight:600"><span>Varlık</span><span>Kötümser</span><span>Beklenen</span><span>İyimser</span></div>
-              <sc-for list="{{ scenarioRows }}" as="sr" hint-placeholder-count="5"><div style="display:grid;grid-template-columns:1.5fr repeat(3,1fr);gap:10px;padding:9px 8px;border-top:1px solid var(--line);font-size:12px;font-variant-numeric:tabular-nums"><span style="display:flex;align-items:center;gap:7px;font-weight:600"><span style="width:8px;height:8px;border-radius:2px;background:{{ sr.color }}"></span>{{ sr.name }}</span><span>{{ sr.pessimistic }}</span><span>{{ sr.expected }}</span><span>{{ sr.optimistic }}</span></div></sc-for>
+            <div style="font-size:14px;font-weight:600">Varlık bazlı vadeli tahminler</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:4px;margin-bottom:12px">{{ scenarioName }} senaryoda nominal değerler; mevcut aylık katkı planı her vadeye dahil edilir.</div>
+            <div style="min-width:720px">
+              <div style="display:grid;grid-template-columns:1.5fr repeat(4,1fr);gap:12px;padding:0 8px 8px;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--faint);font-weight:600"><span>Varlık</span><span style="text-align:right">1 yıl</span><span style="text-align:right">3 yıl</span><span style="text-align:right">5 yıl</span><span style="text-align:right">10 yıl</span></div>
+              <sc-for list="{{ forecastRows }}" as="fr" hint-placeholder-count="5"><div style="display:grid;grid-template-columns:1.5fr repeat(4,1fr);gap:12px;padding:10px 8px;border-top:1px solid var(--line);font-size:12px;font-variant-numeric:tabular-nums;align-items:center"><span style="display:flex;align-items:center;gap:7px;font-weight:600;min-width:0"><span style="width:8px;height:8px;border-radius:2px;flex:none;background:{{ fr.color }}"></span><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ fr.name }}</span></span><span style="text-align:right">{{ fr.y1 }}</span><span style="text-align:right">{{ fr.y3 }}</span><span style="text-align:right">{{ fr.y5 }}</span><span style="text-align:right">{{ fr.y10 }}</span></div></sc-for>
+              <div style="display:grid;grid-template-columns:1.5fr repeat(4,1fr);gap:12px;padding:12px 8px;border-top:2px solid var(--line);font-size:12px;font-variant-numeric:tabular-nums;align-items:center"><span style="font-weight:700">Portföy ara toplamı</span><span style="text-align:right;font-weight:700;color:var(--green)">{{ forecastTotals.y1 }}</span><span style="text-align:right;font-weight:700;color:var(--green)">{{ forecastTotals.y3 }}</span><span style="text-align:right;font-weight:700;color:var(--green)">{{ forecastTotals.y5 }}</span><span style="text-align:right;font-weight:700;color:var(--green)">{{ forecastTotals.y10 }}</span></div>
             </div>
           </div>
 
@@ -845,7 +846,7 @@ input{font-family:inherit}
                 <div style="font-size:11px;color:var(--muted);margin-top:4px;max-width:380px;text-wrap:pretty">Her ay net varlığını kaydet; bu seri gerçekleşen birikimini gösterir. <sc-if value="{{ sampleHist }}" hint-placeholder-val="{{ false }}"><b style="color:var(--clay)">Şu an örnek veri gösteriliyor.</b></sc-if></div>
               </div>
               <div style="display:flex;gap:8px;flex:none;flex-wrap:wrap">
-                <button onclick="{{ recordSnap }}" style="border:none;background:var(--panel);color:#fff;font-family:inherit;font-size:12px;font-weight:600;padding:9px 13px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Bu ayı kaydet</button>
+                <button onclick="{{ recordSnap }}" style="border:none;background:var(--panel);color:#fff;font-family:inherit;font-size:12px;font-weight:600;padding:9px 13px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="{{ recordIcon }}"></path></svg>{{ recordButtonLabel }}</button>
                 <button onclick="{{ clearSnaps }}" style="border:1px solid var(--line);background:var(--paper);color:var(--muted);font-family:inherit;font-size:12px;font-weight:600;padding:9px 12px;border-radius:8px;cursor:pointer">Temizle</button>
               </div>
             </div>
@@ -862,6 +863,7 @@ input{font-family:inherit}
                 <sc-for list="{{ histDots }}" as="hd" hint-placeholder-count="6"><span style="position:absolute;left:{{ hd.leftPct }}%;top:{{ hd.topPct }}%;transform:translate(-50%,-50%);width:7px;height:7px;border-radius:50%;background:var(--green);border:2px solid var(--card)"></span></sc-for>
               </div>
             </sc-if>
+            <sc-if value="{{ hasSingleHist }}" hint-placeholder-val="{{ false }}"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:13px;padding:11px 13px;border:1px solid rgba(79,181,133,.28);background:rgba(79,181,133,.09);border-radius:9px"><span style="font-size:11px;color:var(--muted)"><b style="color:var(--green)">{{ singleHistDate }} kaydedildi.</b> Değişim grafiği ikinci aylık kayıtla oluşacak.</span><span style="font-size:13px;font-weight:700;white-space:nowrap">{{ singleHistValue }}</span></div></sc-if>
             <sc-if value="{{ sampleHist }}" hint-placeholder-val="{{ false }}"><div style="font-size:11px;color:var(--faint);margin-top:10px">“Bu ayı kaydet” dediğinde örnek seri yerini gerçek kayıtlarına bırakır.</div></sc-if>
           </div>
 
@@ -888,12 +890,12 @@ input{font-family:inherit}
                 <div style="font-size:14px;font-weight:600">Vergi ve reel getiri</div>
                 <div style="font-size:11px;color:var(--muted);margin-top:4px;max-width:420px;text-wrap:pretty">{{ analysisHorizon }} sonra nominal değer, bugünün alım gücüyle reel değer ve vergi sonrası reel kazanç. Vergi (stopaj) oranı yalnızca kazanca uygulanır.</div>
               </div>
-              <div style="display:flex;flex-direction:column;gap:5px;flex:none"><span style="font-size:9px;text-transform:uppercase;letter-spacing:.05em;color:var(--faint);font-weight:600">Vergi / stopaj</span><div style="display:flex;align-items:center;border:1px solid var(--line);border-radius:8px;padding:7px 10px;gap:2px;background:var(--paper)"><span style="color:var(--muted);font-size:13px">%</span><input value="{{ taxRate }}" onchange="{{ onTaxRate }}" inputmode="decimal" style="width:46px;border:none;outline:none;background:transparent;font-size:14px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums"></div></div>
+              <div style="font-size:10px;color:var(--muted);font-weight:600;border:1px solid var(--line);background:var(--paper);border-radius:8px;padding:7px 10px;flex:none">Varlık bazında oran</div>
             </div>
-            <div style="min-width:560px;margin-top:14px">
-              <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;gap:10px;padding:0 6px 8px;font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--faint);font-weight:600"><span>Varlık</span><span style="text-align:right">Bugün</span><span style="text-align:right">Nominal</span><span style="text-align:right">Reel</span><span style="text-align:right">Vergi sonrası reel</span></div>
-              <sc-for list="{{ realRows }}" as="r" hint-placeholder-count="5"><div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;gap:10px;padding:9px 6px;border-top:1px solid var(--line);font-size:12px;font-variant-numeric:tabular-nums;align-items:center"><span style="display:flex;align-items:center;gap:7px;font-weight:600"><span style="width:8px;height:8px;border-radius:2px;flex:none;background:{{ r.color }}"></span>{{ r.name }}</span><span style="text-align:right;color:var(--muted)">{{ r.nowStr }}</span><span style="text-align:right">{{ r.nomStr }}</span><span style="text-align:right">{{ r.realStr }}</span><span style="text-align:right;font-weight:700;color:{{ r.afterColor }}">{{ r.afterStr }}</span></div></sc-for>
-              <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;gap:10px;padding:11px 6px;border-top:2px solid var(--line);font-size:12px;font-variant-numeric:tabular-nums;align-items:center"><span style="font-weight:700">Portföy toplamı</span><span style="text-align:right;color:var(--muted)">{{ realTotalRow.nowStr }}</span><span style="text-align:right;font-weight:600">{{ realTotalRow.nomStr }}</span><span style="text-align:right;font-weight:600">{{ realTotalRow.realStr }}</span><span style="text-align:right;font-weight:700;color:{{ realTotalRow.afterColor }}">{{ realTotalRow.afterStr }}</span></div>
+            <div style="min-width:700px;margin-top:14px">
+              <div style="display:grid;grid-template-columns:1.35fr .65fr 1fr 1fr 1fr 1fr;gap:10px;padding:0 6px 8px;font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--faint);font-weight:600"><span>Varlık</span><span style="text-align:right">Stopaj</span><span style="text-align:right">Bugün</span><span style="text-align:right">Nominal</span><span style="text-align:right">Reel</span><span style="text-align:right">Vergi sonrası reel</span></div>
+              <sc-for list="{{ realRows }}" as="r" hint-placeholder-count="5"><div style="display:grid;grid-template-columns:1.35fr .65fr 1fr 1fr 1fr 1fr;gap:10px;padding:9px 6px;border-top:1px solid var(--line);font-size:12px;font-variant-numeric:tabular-nums;align-items:center"><span style="display:flex;align-items:center;gap:7px;font-weight:600"><span style="width:8px;height:8px;border-radius:2px;flex:none;background:{{ r.color }}"></span>{{ r.name }}</span><span style="display:flex;justify-content:flex-end"><label style="display:inline-flex;align-items:center;gap:2px;border:1px solid var(--line);background:var(--paper);border-radius:7px;padding:5px 7px;color:var(--muted)">%<input value="{{ r.taxRate }}" oninput="{{ r.onTaxRate }}" inputmode="decimal" aria-label="{{ r.name }} stopaj oranı" style="width:34px;border:none;outline:none;background:transparent;color:var(--ink);font:inherit;font-weight:700;text-align:right"></label></span><span style="text-align:right;color:var(--muted)">{{ r.nowStr }}</span><span style="text-align:right">{{ r.nomStr }}</span><span style="text-align:right">{{ r.realStr }}</span><span style="text-align:right;font-weight:700;color:{{ r.afterColor }}">{{ r.afterStr }}</span></div></sc-for>
+              <div style="display:grid;grid-template-columns:1.35fr .65fr 1fr 1fr 1fr 1fr;gap:10px;padding:11px 6px;border-top:2px solid var(--line);font-size:12px;font-variant-numeric:tabular-nums;align-items:center"><span style="font-weight:700">Portföy toplamı</span><span style="text-align:right;color:var(--muted)">{{ realTotalRow.taxRate }}</span><span style="text-align:right;color:var(--muted)">{{ realTotalRow.nowStr }}</span><span style="text-align:right;font-weight:600">{{ realTotalRow.nomStr }}</span><span style="text-align:right;font-weight:600">{{ realTotalRow.realStr }}</span><span style="text-align:right;font-weight:700;color:{{ realTotalRow.afterColor }}">{{ realTotalRow.afterStr }}</span></div>
             </div>
             <div style="font-size:10px;color:var(--faint);margin-top:11px;text-wrap:pretty">Reel değer = nominal ÷ birikimli enflasyon. Reel kazanç pozitifse alım gücün artıyor demektir. Vergi tahmini bilgilendirme amaçlıdır.</div>
           </div>
@@ -1128,11 +1130,11 @@ class Component extends DCLogic {
 
   defaults() {
     return [
-      { id: 'a1', name: 'Hisse / Fon', value: 250000, rate: '30', contrib: 9000, color: '#5b9e74', riskFree: false, risk: 0.12 },
-      { id: 'a2', name: 'Altın', value: 200000, rate: '25', contrib: 3000, color: '#c2954f', riskFree: false, risk: 0.07 },
-      { id: 'a3', name: 'Döviz', value: 140000, rate: '19.63', contrib: 2000, color: '#bf7a5e', riskFree: false, risk: 0.06 },
-      { id: 'a4', name: 'Mevduat / Kira Sert.', value: 150000, rate: '37', contrib: 5000, color: '#5f9aa3', riskFree: true, risk: 0 },
-      { id: 'a5', name: 'Nakit', value: 90000, rate: '2', contrib: 2000, color: '#94918a', riskFree: true, risk: 0 },
+      { id: 'a1', name: 'Hisse / Fon', value: 250000, rate: '30', contrib: 9000, taxRate: '', color: '#5b9e74', riskFree: false, risk: 0.12 },
+      { id: 'a2', name: 'Altın', value: 200000, rate: '25', contrib: 3000, taxRate: '', color: '#c2954f', riskFree: false, risk: 0.07 },
+      { id: 'a3', name: 'Döviz', value: 140000, rate: '19.63', contrib: 2000, taxRate: '', color: '#bf7a5e', riskFree: false, risk: 0.06 },
+      { id: 'a4', name: 'Mevduat / Kira Sert.', value: 150000, rate: '37', contrib: 5000, taxRate: '', color: '#5f9aa3', riskFree: true, risk: 0 },
+      { id: 'a5', name: 'Nakit', value: 90000, rate: '2', contrib: 2000, taxRate: '', color: '#94918a', riskFree: true, risk: 0 },
     ];
   }
   assetsList() { return this.state.assets || this.defaults(); }
@@ -1177,11 +1179,13 @@ class Component extends DCLogic {
     const saved = this.load();
     const econFresh = !!(saved && saved.econVersion === this.ECON_VERSION);
     const seedAssets = this.migrateAssets(saved && saved.assets, econFresh);
+    const legacyTaxRate = saved && saved.taxRate != null && this.num(saved.taxRate) ? String(this.num(saved.taxRate)) : '';
+    const migratedAssets = (seedAssets || this.defaults()).map(a => ({ ...a, taxRate: a.taxRate != null ? String(a.taxRate).replace(/^0+(?=\d)/, '') : legacyTaxRate }));
     this.setState({
       vw: window.innerWidth,
       navStyle: this.props.navStyle || (saved && saved.navStyle) || 'sidebar',
       currency: (saved && saved.currency) || this.props.currency || '₺',
-      assets: seedAssets,
+      assets: migratedAssets,
       priceMode: (saved && saved.priceMode) || 'try',
       inflTRY: econFresh && this.validInfl(saved && saved.inflTRY) ? saved.inflTRY : this.state.inflTRY,
       inflUSD: econFresh && this.validInfl(saved && saved.inflUSD) ? saved.inflUSD : this.state.inflUSD,
@@ -1199,7 +1203,7 @@ class Component extends DCLogic {
       theme: (saved && saved.theme) || 'light',
       userName: (saved && saved.userName && saved.userName !== 'Selin K.') ? saved.userName : 'Doğukan B',
       taxRate: (saved && saved.taxRate != null) ? saved.taxRate : '0',
-      snapshots: (saved && Array.isArray(saved.snapshots)) ? saved.snapshots : this.defaultSnapshots(seedAssets),
+      snapshots: (saved && Array.isArray(saved.snapshots)) ? saved.snapshots : this.defaultSnapshots(migratedAssets),
       anim: 0,
     });
     this._resize = () => this.setState({ vw: window.innerWidth });
@@ -1395,7 +1399,7 @@ class Component extends DCLogic {
     const sig = JSON.stringify([view, scenario, infl, this.state.priceMode, this.state.mode, this.state.valueMode, this.state.contribMode, this.state.contribGrowth, this.state.goalAmount, this.rate(), assets]);
     if (this._d && this._sig === sig) return this._d;
 
-    const META = assets.map(a => { const p = this.scenarioProfile(a); return { key: a.id, name: a.name, start: this.num(a.value), risk: p.spread, vol: p.vol, color: a.color, rate: this.effectiveReturn(a, assets), contrib: a.contrib || 0 }; });
+    const META = assets.map(a => { const p = this.scenarioProfile(a); return { key: a.id, name: a.name, start: this.num(a.value), risk: p.spread, vol: p.vol, color: a.color, rate: this.effectiveReturn(a, assets), contrib: a.contrib || 0, taxRate: a.taxRate == null ? '' : String(a.taxRate) }; });
     const k = scenario === 'İyimser' ? 1 : scenario === 'Kötümser' ? -1 : 0;
     // Kısa vadede geçmiş veri projeksiyon alanını ezmesin.
     const PAST = view === 1 ? 3 : view === 3 ? 6 : 12;
@@ -1724,11 +1728,21 @@ class Component extends DCLogic {
     const scenBtns = ['Kötümser', 'Beklenen', 'İyimser'].map(s => ({ label: s, style: segBtnSm(scenario === s), onClick: () => this.mutate({ scenario: s }) }));
     const valueBtns = [['nominal', 'Nominal'], ['real', 'Reel']].map(([v, l]) => ({ label: l, style: compactSegBtn(this.state.valueMode === v), onClick: () => this.mutate({ valueMode: v, hoverIdx: null }) }));
     const contribBtns = [['fixed', 'Sabit'], ['inflation', 'Enflasyonla'], ['custom', 'Özel oran']].map(([v, l]) => ({ label: l, style: segBtn(this.state.contribMode === v), onClick: () => this.mutate({ contribMode: v }) }));
-    const scenarioRows = assets.map(a => {
-      const base = this.effectiveReturn(a, assets), spread = this.scenarioProfile(a).spread;
-      const pct = n => '%' + (n * 100).toFixed(1).replace('.', ',');
-      return { name: a.name, color: a.color, pessimistic: pct(base - spread), expected: pct(base), optimistic: pct(base + spread) };
-    });
+    const forecastYears = [1, 3, 5, 10];
+    const forecastValue = (a, years) => {
+      const annualReturn = this.effectiveReturn(a, assets) + scenarioK * this.scenarioProfile(a).spread;
+      const customGrowth = this.num(this.state.contribGrowth) / 100;
+      let value = this.num(a.value), inflationFactor = 1;
+      for (let month = 1; month <= years * 12; month++) {
+        if (this.state.contribMode === 'inflation') inflationFactor *= 1 + this.rateAtYear((month - 1) / 12, 'mid') / 100 / 12;
+        const contributionFactor = this.state.contribMode === 'inflation' ? inflationFactor : this.state.contribMode === 'custom' ? Math.pow(1 + customGrowth, month / 12) : 1;
+        value = Math.max(0, value * (1 + Math.max(annualReturn / 12, -0.95)) + (a.contrib || 0) * contributionFactor);
+      }
+      return value;
+    };
+    const forecastRawRows = assets.map(a => { const values = {}; forecastYears.forEach(year => values[year] = forecastValue(a, year)); return { name: a.name, color: a.color, values }; });
+    const forecastRows = forecastRawRows.map(row => ({ name: row.name, color: row.color, y1: this.fmt(row.values[1]), y3: this.fmt(row.values[3]), y5: this.fmt(row.values[5]), y10: this.fmt(row.values[10]) }));
+    const forecastTotals = {}; forecastYears.forEach(year => forecastTotals['y' + year] = this.fmt(forecastRawRows.reduce((sum, row) => sum + row.values[year], 0)));
     const expectedFx = this.activeReturnInputs(assets).expectedFx;
     const tlForward = this.anchorVal(this.state.inflTRY[1], 'mid') / 100;
     const usdForward = this.anchorVal(this.state.inflUSD[1], 'mid') / 100;
@@ -1786,7 +1800,7 @@ class Component extends DCLogic {
       const base = { name: e.name.trim(), value: this.num(e.value), rate: String(this.num(e.rate)), contrib: Math.round(this.num(e.contrib)), riskFree: !!e.riskFree, color: e.color };
       this.mutate(s => {
         if (e.id) return { assets: s.assets.map(a => a.id === e.id ? { ...a, ...base, risk: e.riskFree ? 0 : (a.risk || 0.08) } : a), editing: null };
-        return { assets: [...s.assets, { id: 'a' + Date.now(), ...base, risk: e.riskFree ? 0 : 0.08 }], editing: null };
+        return { assets: [...s.assets, { id: 'a' + Date.now(), ...base, taxRate: '', risk: e.riskFree ? 0 : 0.08 }], editing: null };
       });
     };
 
@@ -1817,7 +1831,7 @@ class Component extends DCLogic {
     // ===== Analiz & detay hesapları =====
     const endI = N - 1;
     const totalNow = d.total[TODAY] || 1;
-    const alloc = d.META.map(a => ({ id: a.key, name: a.name, color: a.color, value: d.per[a.key][TODAY], nomNow: d.perNom[a.key][TODAY], nomEnd: d.perNom[a.key][endI], rate: a.rate, contrib: a.contrib, w: d.per[a.key][TODAY] / totalNow }));
+    const alloc = d.META.map(a => ({ id: a.key, name: a.name, color: a.color, value: d.per[a.key][TODAY], nomNow: d.perNom[a.key][TODAY], nomEnd: d.perNom[a.key][endI], rate: a.rate, contrib: a.contrib, taxRate: a.taxRate, w: d.per[a.key][TODAY] / totalNow }));
     const allocSorted = alloc.slice().sort((x, y) => y.value - x.value);
     const DC = 2 * Math.PI * 52; let dacc = 0;
     const donutSegs = allocSorted.map(a => { const len = a.w * DC; const s = { color: a.color, dash: len.toFixed(2) + ' ' + (DC - len).toFixed(2), offset: dacc.toFixed(2), name: a.name, pct: Math.round(a.w * 100), valueStr: this.fmt(a.value) }; dacc += len; return s; });
@@ -1843,12 +1857,14 @@ class Component extends DCLogic {
     const goalInternal = this.num(this.state.goalAmount) * (this.state.priceMode === 'usd' && this.rate() ? this.rate() : 1);
     const remainingGoal = Math.max(0, goalInternal - d.total[TODAY]);
     const goalCovered = goalInternal > 0 ? Math.min(100, Math.round(d.total[TODAY] / goalInternal * 100)) : 0;
-    const taxR = this.num(this.state.taxRate) / 100;
-    const realRows = allocSorted.map(a => { const realEnd = a.nomEnd / d.priceIndex[endI]; const realGain = realEnd - a.nomNow; const tax = Math.max(0, a.nomEnd - a.nomNow) * taxR; const afterReal = (a.nomEnd - tax) / d.priceIndex[endI] - a.nomNow; return { name: a.name, color: a.color, nowStr: this.fmt(a.nomNow), nomStr: this.fmt(a.nomEnd), realStr: this.fmt(realEnd), realGainStr: (realGain >= 0 ? '+' : '−') + this.fmt(Math.abs(realGain)), realGainPos: realGain >= 0, afterStr: (afterReal >= 0 ? '+' : '−') + this.fmt(Math.abs(afterReal)), afterColor: afterReal >= 0 ? 'var(--green)' : 'var(--clay)' }; });
+    const setAssetTaxRate = id => e => { const raw = e.target.value.replace(/[^0-9.,]/g, '').replace(/^0+(?=\d)/, ''); this.mutate(s => ({ assets: s.assets.map(a => a.id === id ? { ...a, taxRate: raw } : a) })); };
+    let portTax = 0, taxableGain = 0;
+    const realRows = allocSorted.map(a => { const taxR = Math.min(100, Math.max(0, this.num(a.taxRate))) / 100; let contributedPrincipal = 0; for (let i = TODAY + 1; i <= endI; i++) contributedPrincipal += a.contrib * (d.contribFactor[i] || 1); const assetTaxableGain = Math.max(0, a.nomEnd - a.nomNow - contributedPrincipal); taxableGain += assetTaxableGain; const realEnd = a.nomEnd / d.priceIndex[endI]; const realGain = realEnd - a.nomNow; const tax = assetTaxableGain * taxR; portTax += tax; const afterReal = (a.nomEnd - tax) / d.priceIndex[endI] - a.nomNow; return { id: a.id, name: a.name, color: a.color, taxRate: a.taxRate, onTaxRate: setAssetTaxRate(a.id), nowStr: this.fmt(a.nomNow), nomStr: this.fmt(a.nomEnd), realStr: this.fmt(realEnd), realGainStr: (realGain >= 0 ? '+' : '−') + this.fmt(Math.abs(realGain)), realGainPos: realGain >= 0, afterStr: (afterReal >= 0 ? '+' : '−') + this.fmt(Math.abs(afterReal)), afterColor: afterReal >= 0 ? 'var(--green)' : 'var(--clay)' }; });
     const portNomEnd = d.totalNomArr[endI], portRealEnd = portNomEnd / d.priceIndex[endI];
     const portRealGain = portRealEnd - d.total[TODAY];
-    const portTax = Math.max(0, portNomEnd - d.total[TODAY]) * taxR; const portAfter = (portNomEnd - portTax) / d.priceIndex[endI] - d.total[TODAY];
-    const realTotalRow = { nowStr: this.fmt(d.total[TODAY]), nomStr: this.fmt(portNomEnd), realStr: this.fmt(portRealEnd), realGainStr: (portRealGain >= 0 ? '+' : '−') + this.fmt(Math.abs(portRealGain)), realGainPos: portRealGain >= 0, afterStr: (portAfter >= 0 ? '+' : '−') + this.fmt(Math.abs(portAfter)), afterColor: portAfter >= 0 ? 'var(--green)' : 'var(--clay)' };
+    const portAfter = (portNomEnd - portTax) / d.priceIndex[endI] - d.total[TODAY];
+    const effectiveTaxRate = taxableGain > 0 ? portTax / taxableGain * 100 : 0;
+    const realTotalRow = { taxRate: '%' + effectiveTaxRate.toFixed(1).replace('.', ','), nowStr: this.fmt(d.total[TODAY]), nomStr: this.fmt(portNomEnd), realStr: this.fmt(portRealEnd), realGainStr: (portRealGain >= 0 ? '+' : '−') + this.fmt(Math.abs(portRealGain)), realGainPos: portRealGain >= 0, afterStr: (portAfter >= 0 ? '+' : '−') + this.fmt(Math.abs(portAfter)), afterColor: portAfter >= 0 ? 'var(--green)' : 'var(--clay)' };
     const snaps = (this.state.snapshots || []).slice().sort((a, b) => a.ym < b.ym ? -1 : 1);
     const snapTot = snaps.map(s => ({ ym: s.ym, total: this.snapTotal(s) }));
     const hasHist = snapTot.length >= 2;
@@ -1867,6 +1883,12 @@ class Component extends DCLogic {
     }
     const sampleHist = snaps.length > 0 && snaps.every(s => s.sample);
     const curYm = new Date().getFullYear() + '-' + String(new Date().getMonth() + 1).padStart(2, '0');
+    const recordedThisMonth = snaps.some(s => !s.sample && s.ym === curYm);
+    const hasSingleHist = snaps.length === 1 && !sampleHist;
+    const singleSnap = hasSingleHist ? snaps[0] : null;
+    const singleParts = singleSnap ? singleSnap.ym.split('-') : null;
+    const singleHistDate = singleParts ? MON[+singleParts[1] - 1] + ' ' + singleParts[0] : '';
+    const singleHistValue = singleSnap ? this.fmt(this.snapTotal(singleSnap)) : '';
     const detA = assets.find(a => a.id === this.state.detailId);
     let detail = null;
     if (detA) {
@@ -1915,7 +1937,7 @@ class Component extends DCLogic {
       lineOpacity: mode === 'total' ? 1 : 0, stackOpacity: mode === 'breakdown' ? 1 : 0,
       btnTotalStyle: segBtn(mode === 'total'), btnBreakStyle: segBtn(mode === 'breakdown'),
       showTotal: () => this.setState({ mode: 'total' }), showBreak: () => this.setState({ mode: 'breakdown' }),
-      tfBtns, scenBtns, valueBtns, contribBtns, scenarioRows, metricCards, detailMetrics,
+      tfBtns, scenBtns, valueBtns, contribBtns, forecastRows, forecastTotals, metricCards, detailMetrics,
       fxConsistencyWarn, fxConsistencyText,
       fxConsistencyShort: fxConsistencyWarn ? 'Kur ayrışıyor' : 'Kur dengeli',
       consistencyStyle: fxConsistencyWarn ? 'background:#fbf1ec;border-color:#f0d9cd;color:var(--clay)' : 'background:#eef5f0;border-color:#d7e8dc;color:#467b59',
@@ -2004,12 +2026,13 @@ class Component extends DCLogic {
       goalCoverBar: 'width:' + goalCovered + '%;height:100%;background:var(--green);border-radius:99px;transition:width .4s ease',
       goalReached: remainingGoal <= 0, goalDurationText,
       cfMonths, beatProbStr: '%' + d.beatInflationProbability,
-      realRows, realTotalRow, taxRate: this.state.taxRate,
-      onTaxRate: e => this.mutate({ taxRate: e.target.value.replace(/[^0-9.,]/g, '') }),
+      realRows, realTotalRow,
       hasHist, histPath, histArea, histDots, histChangeStr, histChangePos, histChangePct, histFirst, histLast,
       histChangeColor: histChangePos ? 'var(--green)' : 'var(--clay)', sampleHist, snapCount: snaps.length,
       recordSnap: () => this.recordSnapshot(), clearSnaps: () => this.clearSnapshots(),
-      recordedThisMonth: snaps.some(s => !s.sample && s.ym === curYm),
+      recordedThisMonth, hasSingleHist, singleHistDate, singleHistValue,
+      recordButtonLabel: recordedThisMonth ? 'Bu ayı güncelle' : 'Bu ayı kaydet',
+      recordIcon: recordedThisMonth ? 'M5 12l4 4L19 6' : 'M12 5v14M5 12h14',
 
       detail, hasDetail: !!detail,
       backFromDetail: () => this.setState({ screen: 'assets', detailId: null }),
