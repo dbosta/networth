@@ -400,6 +400,11 @@ input{font-family:inherit}
 .theme-dark.wealth-app input,.theme-dark.wealth-app textarea,.theme-dark.wealth-app select{color:var(--ink)!important;caret-color:var(--green)!important}
 .theme-dark.wealth-app input::placeholder,.theme-dark.wealth-app textarea::placeholder{color:var(--faint)!important;opacity:1}
 .theme-dark.wealth-app input:-webkit-autofill{-webkit-text-fill-color:var(--ink)!important;box-shadow:0 0 0 1000px var(--paper) inset!important}
+.global-currency-switch{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--paper)}
+.global-currency-switch button{border:none;cursor:pointer;font-family:inherit;font-size:11px;font-weight:700;padding:7px 10px;transition:background .18s ease,color .18s ease}
+.app-sidebar .global-currency-switch{width:100%;border-color:rgba(255,255,255,.14);background:rgba(255,255,255,.045)}
+.app-sidebar .global-currency-switch button{flex:1;color:rgba(232,239,234,.72)!important;background:transparent!important}
+.app-sidebar .global-currency-switch button[aria-pressed="true"]{color:#fff!important;background:rgba(81,180,131,.28)!important}
 </style>
 </helmet>
 
@@ -417,6 +422,7 @@ input{font-family:inherit}
         </sc-for>
       </div>
       <div style="margin-top:auto;display:flex;flex-direction:column;gap:8px;padding-top:12px">
+        <div><div style="font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:rgba(232,239,234,.52);font-weight:700;margin:0 0 6px 2px">Para birimi</div><div class="global-currency-switch"><sc-for list="{{ globalModeBtns }}" as="b" hint-placeholder-count="2"><button onclick="{{ b.onClick }}" aria-pressed="{{ b.pressed }}" style="{{ b.style }}">{{ b.label }}</button></sc-for></div></div>
         <button class="sidebar-theme-toggle" onclick="{{ toggleTheme }}" style="display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--card);color:var(--muted);font-family:inherit;font-size:13px;font-weight:600;padding:9px 11px;border-radius:9px;cursor:pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="{{ themeIcon }}"></path></svg>{{ themeLabel }}</button>
         <div class="sidebar-profile" style="display:flex;align-items:center;gap:10px;padding:10px 8px 2px;border-top:1px solid var(--line)">
           <span style="width:30px;height:30px;border-radius:50%;background:var(--green);color:#fff;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none">{{ userInitials }}</span>
@@ -437,6 +443,7 @@ input{font-family:inherit}
           </sc-for>
         </div>
         <div style="display:flex;align-items:center;gap:10px">
+          <div class="global-currency-switch"><sc-for list="{{ globalModeBtns }}" as="b" hint-placeholder-count="2"><button onclick="{{ b.onClick }}" aria-pressed="{{ b.pressed }}" style="{{ b.style }}">{{ b.label }}</button></sc-for></div>
           <button onclick="{{ toggleTheme }}" title="{{ themeLabel }}" style="width:34px;height:34px;border:1px solid var(--line);border-radius:9px;background:var(--card);color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="{{ themeIcon }}"></path></svg></button>
           <span style="width:30px;height:30px;border-radius:50%;background:var(--green);color:#fff;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center">{{ userInitials }}</span>
         </div>
@@ -447,6 +454,7 @@ input{font-family:inherit}
       <header class="glass-header" style="position:sticky;top:0;z-index:20;background:rgba(250,249,246,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:14px 16px">
         <span style="font-family:Spectral,serif;font-size:19px;font-weight:600">{{ screenTitle }}</span>
         <div style="display:flex;align-items:center;gap:8px">
+          <div class="global-currency-switch"><sc-for list="{{ globalModeBtnsCompact }}" as="b" hint-placeholder-count="2"><button onclick="{{ b.onClick }}" aria-pressed="{{ b.pressed }}" style="{{ b.style }}">{{ b.label }}</button></sc-for></div>
           <button onclick="{{ toggleTheme }}" title="{{ themeLabel }}" style="width:34px;height:34px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="{{ themeIcon }}"></path></svg></button>
           <sc-if value="{{ onAssets }}" hint-placeholder-val="{{ false }}"><button onclick="{{ openAdd }}" style="border:none;background:var(--panel);color:#fff;font-family:inherit;font-size:13px;font-weight:600;padding:8px 13px;border-radius:8px;cursor:pointer">+ Ekle</button></sc-if>
         </div>
@@ -885,9 +893,15 @@ input{font-family:inherit}
             <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px"><span style="font-size:11px;color:var(--muted)">Hedefin karşılanan kısmı</span><span style="font-size:12px;font-weight:700">{{ goalCoveredStr }}</span></div>
             <div style="height:7px;background:var(--line);border-radius:99px;margin-top:8px;overflow:hidden"><div style="{{ goalCoverBar }}"></div></div>
             <div style="font-size:11px;color:var(--muted);margin-top:16px;margin-bottom:9px">Önümüzdeki 12 ay · planlanan aylık katkı</div>
-            <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px">
-              <sc-for list="{{ cfMonths }}" as="m" hint-placeholder-count="12"><div style="{{ m.heatStyle }}"><span style="font-size:10px;font-weight:700">{{ m.label }}</span><span style="font-size:8.5px;opacity:.9">{{ m.valueStr }}</span></div></sc-for>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));gap:8px">
+              <sc-for list="{{ cfMonths }}" as="m" hint-placeholder-count="12"><button onclick="{{ m.onClick }}" aria-label="{{ m.ariaLabel }}" style="{{ m.heatStyle }}"><span style="font-size:10px;font-weight:700">{{ m.label }}</span><span style="font-size:8.5px;opacity:.9">{{ m.valueStr }}</span></button></sc-for>
             </div>
+            <sc-if value="{{ contribDetailOn }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top:12px;border:1px solid var(--line);background:var(--paper);border-radius:11px;padding:13px 14px">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><div style="font-size:13px;font-weight:700">{{ contribDetailDate }} yatırım dağılımı</div><div style="font-size:10px;color:var(--muted);margin-top:3px">{{ contribDetailPlanLabel }} · mevcut katkı oranlarına göre</div></div><div style="display:flex;align-items:center;gap:10px"><span style="font-size:15px;font-weight:700;color:var(--green)">{{ contribDetailTotal }}</span><button onclick="{{ closeContribDetail }}" aria-label="Dağılımı kapat" style="width:26px;height:26px;border:1px solid var(--line);border-radius:7px;background:var(--card);color:var(--muted);cursor:pointer;font-family:inherit">×</button></div></div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:7px;margin-top:11px"><sc-for list="{{ contribDetailRows }}" as="dr" hint-placeholder-count="5"><div style="display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:9px 10px"><span style="display:flex;align-items:center;gap:7px;min-width:0"><span style="width:8px;height:8px;border-radius:2px;flex:none;background:{{ dr.color }}"></span><span style="font-size:11px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ dr.name }}</span></span><span style="text-align:right;flex:none"><span style="font-size:11px;font-weight:700">{{ dr.amount }}</span><br><span style="font-size:9px;color:var(--faint)">%{{ dr.pct }}</span></span></div></sc-for></div>
+              </div>
+            </sc-if>
           </div>
 
           <!-- Vergi & reel getiri -->
@@ -1115,7 +1129,7 @@ class Component extends DCLogic {
   state = {
     screen: 'overview', navStyle: null, currency: null, vw: 1024, anim: 1,
     view: 5, scenario: 'Beklenen', mode: 'total', valueMode: 'nominal', hoverIdx: null,
-    compareA: null, compareB: null,
+    compareA: null, compareB: null, contribMonthDetail: null,
     contribMode: 'fixed', contribGrowth: '10',
     goalName: 'Finansal hedef', goalAmount: '5000000',
     priceMode: 'try',
@@ -1794,7 +1808,11 @@ class Component extends DCLogic {
 
     const segWide = on => "flex:1;border:1px solid " + (on ? 'var(--ink)' : 'var(--line)') + ";padding:12px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;" + (on ? "background:var(--panel);color:#fff;" : "background:var(--paper);color:var(--muted);");
     const navBtns = [['sidebar', 'Kenar çubuğu'], ['topbar', 'Üst menü']].map(([k, l]) => ({ label: l, style: segWide(navStyle === k), onClick: () => this.mutate({ navStyle: k }) }));
-    const modeBtns = [['try', '₺ TL'], ['usd', '$ USD']].map(([k, l]) => ({ label: l, style: compactSegBtn(this.state.priceMode === k), onClick: () => this.mutate({ priceMode: k, hoverIdx: null }) }));
+    const switchCurrency = k => () => this.mutate({ priceMode: k, hoverIdx: null });
+    const modeBtns = [['try', '₺ TL'], ['usd', '$ USD']].map(([k, l]) => ({ label: l, style: compactSegBtn(this.state.priceMode === k), onClick: switchCurrency(k) }));
+    const globalCurrencyStyle = on => on ? 'background:var(--panel);color:#fff;' : 'background:var(--paper);color:var(--muted);';
+    const globalModeBtns = [['try', '₺ TL'], ['usd', '$ USD']].map(([k, l]) => ({ label: l, pressed: this.state.priceMode === k ? 'true' : 'false', style: globalCurrencyStyle(this.state.priceMode === k), onClick: switchCurrency(k) }));
+    const globalModeBtnsCompact = [['try', '₺'], ['usd', '$']].map(([k, l]) => ({ label: l, pressed: this.state.priceMode === k ? 'true' : 'false', style: globalCurrencyStyle(this.state.priceMode === k) + 'padding:7px 9px;', onClick: switchCurrency(k) }));
     const modeWideBtns = [['try', '₺ TL — TR enflasyonu'], ['usd', '$ Dolar — ABD enflasyonu']].map(([k, l]) => ({ label: l, style: segWide(this.state.priceMode === k), onClick: () => this.mutate({ priceMode: k, hoverIdx: null }) }));
 
     const resetData = () => { try { localStorage.removeItem('servet:v2'); } catch (e) {} this.setState({ assets: this.defaults(), inflTRY: { 0: { lo: '32.61', hi: '32.61' }, 1: { lo: '23.81', hi: '23.81' }, 2: { lo: '18.29', hi: '18.29' }, 5: { lo: '11.85', hi: '11.85' }, 10: { lo: '5', hi: '5' } }, inflUSD: { 0: { lo: '4.2', hi: '4.2' }, 1: { lo: '3.2', hi: '3.2' }, 2: { lo: '2.6', hi: '2.6' }, 5: { lo: '2', hi: '2' }, 10: { lo: '2', hi: '2' } }, priceMode: 'try', view: 5, scenario: 'Beklenen', valueMode: 'nominal', contribMode: 'fixed', contribGrowth: '10', goalName: 'Finansal hedef', goalAmount: '5000000', autoInflTRY: true, autoInflUSD: true, editing: null }, () => { this.save(); this.fetchUsd(true); this.fetchUsInfl(true); this.fetchTrInfl(true); }); };
@@ -1858,9 +1876,12 @@ class Component extends DCLogic {
     const worstAsset = perfSorted[perfSorted.length - 1] || { name: '—', rate: 0, color: 'var(--clay)' };
     const annualContrib = d.monthlyTotal * 12;
     const cfMonths = [];
-    for (let kk = 1; kk <= 12; kk++) { const i = Math.min(TODAY + kk, N - 1); const dt2 = new Date(2026, 5 + kk, 1); const c = d.monthlyTotal * (d.contribFactor[i] || 1); cfMonths.push({ label: MON[dt2.getMonth()], valueStr: this.fmtShort(c), raw: c }); }
+    for (let kk = 1; kk <= 12; kk++) { const i = Math.min(TODAY + kk, N - 1); const dt2 = new Date(2026, 5 + kk, 1); const factor = d.contribFactor[i] || 1; const c = d.monthlyTotal * factor; const dateLabel = MON[dt2.getMonth()] + ' ' + dt2.getFullYear(); cfMonths.push({ key: kk, label: MON[dt2.getMonth()], dateLabel, valueStr: this.fmtShort(c), raw: c, factor, onClick: () => this.setState({ contribMonthDetail: kk }), ariaLabel: dateLabel + ' toplam ' + this.fmt(c) + ' yatırım dağılımını göster' }); }
     const cfMax = Math.max(...cfMonths.map(m => m.raw), 1);
-    cfMonths.forEach(m => { m.heatStyle = 'aspect-ratio:1;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;color:#fff;background:var(--green);opacity:' + (0.26 + 0.74 * m.raw / cfMax).toFixed(2) + ';'; });
+    cfMonths.forEach(m => { const selected = this.state.contribMonthDetail === m.key; m.heatStyle = 'aspect-ratio:1;border:' + (selected ? '2px solid var(--ink)' : 'none') + ';border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;color:#fff;background:var(--green);opacity:' + (selected ? '1' : (0.38 + 0.62 * m.raw / cfMax).toFixed(2)) + ';cursor:pointer;font-family:inherit;box-shadow:' + (selected ? '0 0 0 3px rgba(79,181,133,.18)' : 'none') + ';'; });
+    const contribDetailMonth = cfMonths.find(m => m.key === this.state.contribMonthDetail) || null;
+    const contribDetailRows = contribDetailMonth ? assets.filter(a => (a.contrib || 0) > 0).map(a => { const raw = (a.contrib || 0) * contribDetailMonth.factor; return { name: a.name, color: a.color, amount: this.fmt(raw), pct: contribDetailMonth.raw > 0 ? Math.round(raw / contribDetailMonth.raw * 100) : 0 }; }) : [];
+    const contribDetailPlanLabel = this.state.contribMode === 'inflation' ? 'Enflasyonla güncellenmiş plan' : this.state.contribMode === 'custom' ? '%' + this.num(this.state.contribGrowth).toLocaleString('tr-TR') + ' yıllık artışlı plan' : 'Sabit katkı planı';
     const goalInternal = this.num(this.state.goalAmount) * (this.state.priceMode === 'usd' && this.rate() ? this.rate() : 1);
     const remainingGoal = Math.max(0, goalInternal - d.total[TODAY]);
     const goalCovered = goalInternal > 0 ? Math.min(100, Math.round(d.total[TODAY] / goalInternal * 100)) : 0;
@@ -1994,7 +2015,7 @@ class Component extends DCLogic {
       rangeStr: this.fmtShort(d.worst[N - 1]) + ' – ' + this.fmtShort(d.best[N - 1]),
       investedEnd: this.fmtShort(d.invested[N - 1]), inflEnd: '%' + Math.round(d.inflPct).toLocaleString('tr-TR'),
 
-      navBtns, modeBtns, modeWideBtns, inflFields, inflPrevPath, inflPrevBand, inflDots, resetData,
+      navBtns, modeBtns, modeWideBtns, globalModeBtns, globalModeBtnsCompact, inflFields, inflPrevPath, inflPrevBand, inflDots, resetData,
       priceMode: this.state.priceMode, inflName, cpiLabel,
       usdMissing: this.state.priceMode === 'usd' && !this.rate(),
 
@@ -2038,6 +2059,10 @@ class Component extends DCLogic {
       goalCoverBar: 'width:' + goalCovered + '%;height:100%;background:var(--green);border-radius:99px;transition:width .4s ease',
       goalReached: remainingGoal <= 0, goalDurationText,
       cfMonths, beatProbStr: '%' + d.beatInflationProbability,
+      contribDetailOn: !!contribDetailMonth, contribDetailRows,
+      contribDetailDate: contribDetailMonth ? contribDetailMonth.dateLabel : '',
+      contribDetailTotal: contribDetailMonth ? this.fmt(contribDetailMonth.raw) : '',
+      contribDetailPlanLabel, closeContribDetail: () => this.setState({ contribMonthDetail: null }),
       realRows, realTotalRow,
       hasHist, histPath, histArea, histDots, histChangeStr, histChangePos, histChangePct, histFirst, histLast,
       histChangeColor: histChangePos ? 'var(--green)' : 'var(--clay)', sampleHist, snapCount: snaps.length,
