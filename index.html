@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="tr"><head>
-<meta name="color-scheme" content="light">
+<meta name="color-scheme" content="dark light">
 <meta name="theme-color" content="#14251f">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>Servet · Net Varlık Planlayıcı</title>
-<!-- deployment: direct-static-v1 -->
+<!-- deployment: direct-static-v2-tax-columns -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./runtime.js"></script>
@@ -608,9 +611,26 @@ input{font-family:inherit}
                 </div>
                 <div style="font-size:12px;color:var(--muted);margin-top:8px"><b style="color:var(--ink)">+1 ay sonra {{ nextMonthNetWorth }}</b> · katkı dahil beklenen aylık artış</div>
               </div>
-              <div style="display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-left:auto">
-                <button onclick="{{ showTotal }}" style="{{ btnTotalStyle }}">Toplam</button>
-                <button onclick="{{ showBreak }}" style="{{ btnBreakStyle }}">Kırılım</button>
+              <div style="margin-left:auto;min-width:240px">
+                <div style="display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden">
+                  <button onclick="{{ showTotal }}" style="{{ btnTotalStyle }}">Toplam</button>
+                  <button onclick="{{ showBreak }}" style="{{ btnBreakStyle }}">Kırılım</button>
+                </div>
+                <details style="margin-top:8px;border:1px solid var(--line);border-radius:9px;background:var(--paper);overflow:hidden">
+                  <summary aria-label="Aylık eklenen tutarın dağılımını göster" style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 12px;font-size:11px;color:var(--muted)">
+                    <span>Aylık eklenen</span>
+                    <b style="color:var(--green);font-size:13px;font-variant-numeric:tabular-nums">{{ contribStr }}</b>
+                  </summary>
+                  <div style="border-top:1px solid var(--line);padding:5px 12px 9px">
+                    <sc-for list="{{ projectionContribRows }}" as="r" hint-placeholder-count="3">
+                      <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;padding:6px 0;font-size:11px">
+                        <span style="display:flex;align-items:center;gap:7px;color:var(--muted)"><span style="width:7px;height:7px;border-radius:50%;background:{{ r.color }};flex:none"></span>{{ r.name }}</span>
+                        <b style="font-variant-numeric:tabular-nums;white-space:nowrap">{{ r.amount }}</b>
+                      </div>
+                    </sc-for>
+                    <sc-if value="{{ noMonthlyContrib }}" hint-placeholder-val="{{ false }}"><div style="padding:6px 0;font-size:11px;color:var(--faint)">Bu ay için planlanmış ekleme yok.</div></sc-if>
+                  </div>
+                </details>
               </div>
             </div>
 
@@ -894,12 +914,14 @@ input{font-family:inherit}
             <div style="height:7px;background:var(--line);border-radius:99px;margin-top:8px;overflow:hidden"><div style="{{ goalCoverBar }}"></div></div>
             <div style="font-size:11px;color:var(--muted);margin-top:16px;margin-bottom:9px">Önümüzdeki 12 ay · planlanan aylık katkı</div>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));gap:8px">
-              <sc-for list="{{ cfMonths }}" as="m" hint-placeholder-count="12"><button onclick="{{ m.onClick }}" aria-label="{{ m.ariaLabel }}" style="{{ m.heatStyle }}"><span style="font-size:10px;font-weight:700">{{ m.label }}</span><span style="font-size:8.5px;opacity:.9">{{ m.valueStr }}</span></button></sc-for>
+              <sc-for list="{{ cfMonths }}" as="m" hint-placeholder-count="12"><button onclick="{{ m.onClick }}" aria-label="{{ m.ariaLabel }}" style="{{ m.heatStyle }}"><span style="font-size:10px;font-weight:700">{{ m.label }}</span><span style="font-size:8.5px;opacity:.9">{{ m.valueStr }}</span><span style="font-size:7.5px;opacity:.75;margin-top:3px">Dağılımı gör</span></button></sc-for>
             </div>
             <sc-if value="{{ contribDetailOn }}" hint-placeholder-val="{{ false }}">
-              <div style="margin-top:12px;border:1px solid var(--line);background:var(--paper);border-radius:11px;padding:13px 14px">
-                <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><div style="font-size:13px;font-weight:700">{{ contribDetailDate }} yatırım dağılımı</div><div style="font-size:10px;color:var(--muted);margin-top:3px">{{ contribDetailPlanLabel }} · mevcut katkı oranlarına göre</div></div><div style="display:flex;align-items:center;gap:10px"><span style="font-size:15px;font-weight:700;color:var(--green)">{{ contribDetailTotal }}</span><button onclick="{{ closeContribDetail }}" aria-label="Dağılımı kapat" style="width:26px;height:26px;border:1px solid var(--line);border-radius:7px;background:var(--card);color:var(--muted);cursor:pointer;font-family:inherit">×</button></div></div>
-                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:7px;margin-top:11px"><sc-for list="{{ contribDetailRows }}" as="dr" hint-placeholder-count="5"><div style="display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:9px 10px"><span style="display:flex;align-items:center;gap:7px;min-width:0"><span style="width:8px;height:8px;border-radius:2px;flex:none;background:{{ dr.color }}"></span><span style="font-size:11px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ dr.name }}</span></span><span style="text-align:right;flex:none"><span style="font-size:11px;font-weight:700">{{ dr.amount }}</span><br><span style="font-size:9px;color:var(--faint)">%{{ dr.pct }}</span></span></div></sc-for></div>
+              <div onclick="{{ closeContribDetail }}" style="position:fixed;inset:0;z-index:300;background:rgba(4,9,6,.72);backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;padding:20px">
+                <div onclick="{{ stop }}" style="width:100%;max-width:560px;border:1px solid var(--line);background:var(--paper);border-radius:15px;padding:18px;box-shadow:0 24px 70px rgba(0,0,0,.5)">
+                  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><div style="font-size:16px;font-weight:700">{{ contribDetailDate }} ayında neye ne kadar yatırmalısın?</div><div style="font-size:11px;color:var(--muted);margin-top:4px">{{ contribDetailPlanLabel }} · mevcut katkı oranlarına göre</div></div><div style="display:flex;align-items:center;gap:10px"><span style="font-size:17px;font-weight:700;color:var(--green)">{{ contribDetailTotal }}</span><button onclick="{{ closeContribDetail }}" aria-label="Dağılımı kapat" style="width:30px;height:30px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--muted);cursor:pointer;font-family:inherit;font-size:16px">×</button></div></div>
+                  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-top:15px"><sc-for list="{{ contribDetailRows }}" as="dr" hint-placeholder-count="5"><div style="display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--line);background:var(--card);border-radius:9px;padding:11px 12px"><span style="display:flex;align-items:center;gap:8px;min-width:0"><span style="width:9px;height:9px;border-radius:3px;flex:none;background:{{ dr.color }}"></span><span style="font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ dr.name }}</span></span><span style="text-align:right;flex:none"><span style="font-size:13px;font-weight:700">{{ dr.amount }}</span><br><span style="font-size:9px;color:var(--faint)">%{{ dr.pct }}</span></span></div></sc-for></div>
+                </div>
               </div>
             </sc-if>
           </div>
@@ -909,16 +931,16 @@ input{font-family:inherit}
             <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap">
               <div>
                 <div style="font-size:14px;font-weight:600">Vergi ve reel getiri</div>
-                <div style="font-size:11px;color:var(--muted);margin-top:4px;max-width:420px;text-wrap:pretty">{{ analysisHorizon }} sonra nominal değer, bugünün alım gücüyle reel değer ve vergi sonrası reel kazanç. Vergi (stopaj) oranı yalnızca kazanca uygulanır.</div>
+                <div style="font-size:11px;color:var(--muted);margin-top:4px;max-width:520px;text-wrap:pretty">{{ analysisHorizon }} sonra vergi öncesi ve vergi sonrası toplam nominal değer ile bugünün alım gücüyle reel karşılıkları. Vergi (stopaj) yalnızca tahmini kazanca uygulanır.</div>
               </div>
               <div style="font-size:10px;color:var(--muted);font-weight:600;border:1px solid var(--line);background:var(--paper);border-radius:8px;padding:7px 10px;flex:none">Varlık bazında oran</div>
             </div>
-            <div style="min-width:700px;margin-top:14px">
-              <div style="display:grid;grid-template-columns:1.35fr .65fr 1fr 1fr 1fr 1fr;gap:10px;padding:0 6px 8px;font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--faint);font-weight:600"><span>Varlık</span><span style="text-align:right">Stopaj</span><span style="text-align:right">Bugün</span><span style="text-align:right">Nominal</span><span style="text-align:right">Reel</span><span style="text-align:right">Vergi sonrası reel</span></div>
-              <sc-for list="{{ realRows }}" as="r" hint-placeholder-count="5"><div style="display:grid;grid-template-columns:1.35fr .65fr 1fr 1fr 1fr 1fr;gap:10px;padding:9px 6px;border-top:1px solid var(--line);font-size:12px;font-variant-numeric:tabular-nums;align-items:center"><span style="display:flex;align-items:center;gap:7px;font-weight:600"><span style="width:8px;height:8px;border-radius:2px;flex:none;background:{{ r.color }}"></span>{{ r.name }}</span><span style="display:flex;justify-content:flex-end"><label style="display:inline-flex;align-items:center;gap:2px;border:1px solid var(--line);background:var(--paper);border-radius:7px;padding:5px 7px;color:var(--muted)">%<input value="{{ r.taxRate }}" oninput="{{ r.onTaxRate }}" inputmode="decimal" aria-label="{{ r.name }} stopaj oranı" style="width:34px;border:none;outline:none;background:transparent;color:var(--ink);font:inherit;font-weight:700;text-align:right"></label></span><span style="text-align:right;color:var(--muted)">{{ r.nowStr }}</span><span style="text-align:right">{{ r.nomStr }}</span><span style="text-align:right">{{ r.realStr }}</span><span style="text-align:right;font-weight:700;color:{{ r.afterColor }}">{{ r.afterStr }}</span></div></sc-for>
-              <div style="display:grid;grid-template-columns:1.35fr .65fr 1fr 1fr 1fr 1fr;gap:10px;padding:11px 6px;border-top:2px solid var(--line);font-size:12px;font-variant-numeric:tabular-nums;align-items:center"><span style="font-weight:700">Portföy toplamı</span><span style="text-align:right;color:var(--muted)">{{ realTotalRow.taxRate }}</span><span style="text-align:right;color:var(--muted)">{{ realTotalRow.nowStr }}</span><span style="text-align:right;font-weight:600">{{ realTotalRow.nomStr }}</span><span style="text-align:right;font-weight:600">{{ realTotalRow.realStr }}</span><span style="text-align:right;font-weight:700;color:{{ realTotalRow.afterColor }}">{{ realTotalRow.afterStr }}</span></div>
+            <div style="min-width:940px;margin-top:14px">
+              <div style="display:grid;grid-template-columns:1.3fr .55fr .9fr 1fr 1.12fr 1fr 1.12fr;gap:10px;padding:0 6px 8px;font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--faint);font-weight:600"><span>Varlık</span><span style="text-align:right">Stopaj</span><span style="text-align:right">Bugün</span><span style="text-align:right">Nominal</span><span style="text-align:right">Vergi sonrası nominal</span><span style="text-align:right">Reel</span><span style="text-align:right">Vergi sonrası reel</span></div>
+              <sc-for list="{{ realRows }}" as="r" hint-placeholder-count="5"><div style="display:grid;grid-template-columns:1.3fr .55fr .9fr 1fr 1.12fr 1fr 1.12fr;gap:10px;padding:9px 6px;border-top:1px solid var(--line);font-size:12px;font-variant-numeric:tabular-nums;align-items:center"><span style="display:flex;align-items:center;gap:7px;font-weight:600"><span style="width:8px;height:8px;border-radius:2px;flex:none;background:{{ r.color }}"></span>{{ r.name }}</span><span style="display:flex;justify-content:flex-end"><label style="display:inline-flex;align-items:center;gap:2px;border:1px solid var(--line);background:var(--paper);border-radius:7px;padding:5px 7px;color:var(--muted)">%<input value="{{ r.taxRate }}" oninput="{{ r.onTaxRate }}" inputmode="decimal" aria-label="{{ r.name }} stopaj oranı" style="width:34px;border:none;outline:none;background:transparent;color:var(--ink);font:inherit;font-weight:700;text-align:right"></label></span><span style="text-align:right;color:var(--muted)">{{ r.nowStr }}</span><span style="text-align:right">{{ r.nomStr }}</span><span style="text-align:right;font-weight:700">{{ r.afterNomStr }}</span><span style="text-align:right">{{ r.realStr }}</span><span style="text-align:right;font-weight:700">{{ r.afterRealStr }}</span></div></sc-for>
+              <div style="display:grid;grid-template-columns:1.3fr .55fr .9fr 1fr 1.12fr 1fr 1.12fr;gap:10px;padding:11px 6px;border-top:2px solid var(--line);font-size:12px;font-variant-numeric:tabular-nums;align-items:center"><span style="font-weight:700">Portföy toplamı</span><span style="text-align:right;color:var(--muted)">{{ realTotalRow.taxRate }}</span><span style="text-align:right;color:var(--muted)">{{ realTotalRow.nowStr }}</span><span style="text-align:right;font-weight:600">{{ realTotalRow.nomStr }}</span><span style="text-align:right;font-weight:700">{{ realTotalRow.afterNomStr }}</span><span style="text-align:right;font-weight:600">{{ realTotalRow.realStr }}</span><span style="text-align:right;font-weight:700">{{ realTotalRow.afterRealStr }}</span></div>
             </div>
-            <div style="font-size:10px;color:var(--faint);margin-top:11px;text-wrap:pretty">Reel değer = nominal ÷ birikimli enflasyon. Reel kazanç pozitifse alım gücün artıyor demektir. Vergi tahmini bilgilendirme amaçlıdır.</div>
+            <div style="font-size:10px;color:var(--faint);margin-top:11px;text-wrap:pretty">Reel değer = nominal ÷ birikimli enflasyon. Vergi sonrası sütunları kazanç farkını değil, vergi düşüldükten sonra kalan toplam değeri gösterir. Vergi tahmini bilgilendirme amaçlıdır.</div>
           </div>
         </div>
       </sc-if>
@@ -1143,7 +1165,7 @@ class Component extends DCLogic {
     usInfl: { value: 4.2, asOf: 'Mayıs 2026 · BLS', loading: false, error: false },
     trInfl: { value: 32.61, asOf: 'Mayıs 2026 · TÜİK', loading: false, error: false },
     autoInflTRY: true, autoInflUSD: true,
-    theme: 'light', snapshots: null, detailId: null, taxRate: '0', userName: 'Doğukan B',
+    theme: 'dark', snapshots: null, detailId: null, taxRate: '0', userName: 'Doğukan B',
   };
 
   PALETTE = ['#5b9e74', '#c2954f', '#bf7a5e', '#5f9aa3', '#94918a', '#5f86c2'];
@@ -1221,7 +1243,7 @@ class Component extends DCLogic {
       usdDraft: (saved && saved.usd && saved.usd.rate != null) ? String(saved.usd.rate) : '',
       autoInflTRY: econFresh && saved.autoInflTRY != null ? saved.autoInflTRY : true,
       autoInflUSD: econFresh && saved.autoInflUSD != null ? saved.autoInflUSD : true,
-      theme: (saved && saved.theme) || 'light',
+      theme: (saved && saved.theme) || 'dark',
       userName: (saved && saved.userName && saved.userName !== 'Selin K.') ? saved.userName : 'Doğukan B',
       taxRate: (saved && saved.taxRate != null) ? saved.taxRate : '0',
       snapshots: (saved && Array.isArray(saved.snapshots)) ? saved.snapshots : this.defaultSnapshots(migratedAssets),
@@ -1875,6 +1897,11 @@ class Component extends DCLogic {
     const bestAsset = perfSorted[0] || { name: '—', rate: 0, color: 'var(--green)' };
     const worstAsset = perfSorted[perfSorted.length - 1] || { name: '—', rate: 0, color: 'var(--clay)' };
     const annualContrib = d.monthlyTotal * 12;
+    const projectionContribRows = assets.filter(a => (a.contrib || 0) > 0).map(a => ({
+      name: a.name,
+      color: a.color,
+      amount: this.fmt(a.contrib || 0),
+    }));
     const cfMonths = [];
     for (let kk = 1; kk <= 12; kk++) { const i = Math.min(TODAY + kk, N - 1); const dt2 = new Date(2026, 5 + kk, 1); const factor = d.contribFactor[i] || 1; const c = d.monthlyTotal * factor; const dateLabel = MON[dt2.getMonth()] + ' ' + dt2.getFullYear(); cfMonths.push({ key: kk, label: MON[dt2.getMonth()], dateLabel, valueStr: this.fmtShort(c), raw: c, factor, onClick: () => this.setState({ contribMonthDetail: kk }), ariaLabel: dateLabel + ' toplam ' + this.fmt(c) + ' yatırım dağılımını göster' }); }
     const cfMax = Math.max(...cfMonths.map(m => m.raw), 1);
@@ -1887,12 +1914,12 @@ class Component extends DCLogic {
     const goalCovered = goalInternal > 0 ? Math.min(100, Math.round(d.total[TODAY] / goalInternal * 100)) : 0;
     const setAssetTaxRate = id => e => { const raw = e.target.value.replace(/[^0-9.,]/g, '').replace(/^0+(?=\d)/, ''); this.mutate(s => ({ assets: s.assets.map(a => a.id === id ? { ...a, taxRate: raw } : a) })); };
     let portTax = 0, taxableGain = 0;
-    const realRows = allocSorted.map(a => { const taxR = Math.min(100, Math.max(0, this.num(a.taxRate))) / 100; let contributedPrincipal = 0; for (let i = TODAY + 1; i <= endI; i++) contributedPrincipal += a.contrib * (d.contribFactor[i] || 1); const assetTaxableGain = Math.max(0, a.nomEnd - a.nomNow - contributedPrincipal); taxableGain += assetTaxableGain; const realEnd = a.nomEnd / d.priceIndex[endI]; const realGain = realEnd - a.nomNow; const tax = assetTaxableGain * taxR; portTax += tax; const afterReal = (a.nomEnd - tax) / d.priceIndex[endI] - a.nomNow; return { id: a.id, name: a.name, color: a.color, taxRate: a.taxRate, onTaxRate: setAssetTaxRate(a.id), nowStr: this.fmt(a.nomNow), nomStr: this.fmt(a.nomEnd), realStr: this.fmt(realEnd), realGainStr: (realGain >= 0 ? '+' : '−') + this.fmt(Math.abs(realGain)), realGainPos: realGain >= 0, afterStr: (afterReal >= 0 ? '+' : '−') + this.fmt(Math.abs(afterReal)), afterColor: afterReal >= 0 ? 'var(--green)' : 'var(--clay)' }; });
+    const realRows = allocSorted.map(a => { const taxR = Math.min(100, Math.max(0, this.num(a.taxRate))) / 100; let contributedPrincipal = 0; for (let i = TODAY + 1; i <= endI; i++) contributedPrincipal += a.contrib * (d.contribFactor[i] || 1); const assetTaxableGain = Math.max(0, a.nomEnd - a.nomNow - contributedPrincipal); taxableGain += assetTaxableGain; const realEnd = a.nomEnd / d.priceIndex[endI]; const tax = assetTaxableGain * taxR; portTax += tax; const afterNom = a.nomEnd - tax; const afterReal = afterNom / d.priceIndex[endI]; return { id: a.id, name: a.name, color: a.color, taxRate: a.taxRate, onTaxRate: setAssetTaxRate(a.id), nowStr: this.fmt(a.nomNow), nomStr: this.fmt(a.nomEnd), afterNomStr: this.fmt(afterNom), realStr: this.fmt(realEnd), afterRealStr: this.fmt(afterReal) }; });
     const portNomEnd = d.totalNomArr[endI], portRealEnd = portNomEnd / d.priceIndex[endI];
-    const portRealGain = portRealEnd - d.total[TODAY];
-    const portAfter = (portNomEnd - portTax) / d.priceIndex[endI] - d.total[TODAY];
+    const portAfterNom = portNomEnd - portTax;
+    const portAfterReal = portAfterNom / d.priceIndex[endI];
     const effectiveTaxRate = taxableGain > 0 ? portTax / taxableGain * 100 : 0;
-    const realTotalRow = { taxRate: '%' + effectiveTaxRate.toFixed(1).replace('.', ','), nowStr: this.fmt(d.total[TODAY]), nomStr: this.fmt(portNomEnd), realStr: this.fmt(portRealEnd), realGainStr: (portRealGain >= 0 ? '+' : '−') + this.fmt(Math.abs(portRealGain)), realGainPos: portRealGain >= 0, afterStr: (portAfter >= 0 ? '+' : '−') + this.fmt(Math.abs(portAfter)), afterColor: portAfter >= 0 ? 'var(--green)' : 'var(--clay)' };
+    const realTotalRow = { taxRate: '%' + effectiveTaxRate.toFixed(1).replace('.', ','), nowStr: this.fmt(d.total[TODAY]), nomStr: this.fmt(portNomEnd), afterNomStr: this.fmt(portAfterNom), realStr: this.fmt(portRealEnd), afterRealStr: this.fmt(portAfterReal) };
     const snaps = (this.state.snapshots || []).slice().sort((a, b) => a.ym < b.ym ? -1 : 1);
     const snapTot = snaps.map(s => ({ ym: s.ym, total: this.snapTotal(s) }));
     const hasHist = snapTot.length >= 2;
@@ -1950,6 +1977,7 @@ class Component extends DCLogic {
       changeAbs: '+' + this.fmt(changeAbs),
       changePct: '%' + (d.total[0] ? (changeAbs / d.total[0] * 100) : 0).toFixed(1).replace('.', ','),
       contribStr: this.fmt(d.monthlyTotal),
+      projectionContribRows, noMonthlyContrib: projectionContribRows.length === 0,
       assetCount: assets.length, scenarioName: scenario.toLowerCase(),
       view, horizonLabel: '+' + view + ' yıl',
       projFull: this.fmtShort(d.total[N - 1]),
