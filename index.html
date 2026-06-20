@@ -9,6 +9,7 @@
 <script src="./runtime.js"></script>
 </head>
 <body>
+
 <x-dc>
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -364,7 +365,7 @@ input{font-family:inherit}
 .app-sidebar>div,.app-sidebar button{position:relative;z-index:1}
 .app-sidebar button{color:rgba(232,239,234,.62)!important}
 .app-sidebar button span{color:inherit!important}
-.app-sidebar button[style*="background:#eef2ee"]{background:rgba(255,255,255,.10)!important;color:#fff!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.05)}
+.app-sidebar button[style*="rgb(238, 242, 238)"]{background:rgba(255,255,255,.12)!important;color:#fff!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
 .app-sidebar>div:first-child span:first-child{background:#51b483!important;box-shadow:0 0 0 5px rgba(81,180,131,.12)}
 .app-sidebar>div:last-child{border-color:rgba(255,255,255,.09)!important}
 .app-sidebar>div:last-child>span:first-child{background:linear-gradient(145deg,#318b66,#206849)!important;box-shadow:0 7px 18px rgba(0,0,0,.22)}
@@ -373,16 +374,28 @@ input{font-family:inherit}
 .wealth-app [style*="border-radius:14px;background:var(--card)"]{border-color:rgba(36,58,49,.09)!important;box-shadow:0 1px 2px rgba(17,34,28,.04),0 16px 42px rgba(24,48,40,.055)}
 .wealth-app [style*="border-radius:12px;background:var(--card)"]{border-color:rgba(36,58,49,.09)!important;box-shadow:0 1px 2px rgba(17,34,28,.035),0 10px 28px rgba(24,48,40,.045)}
 .wealth-app [style*="background:var(--paper)"]{border-color:rgba(36,58,49,.10)!important}
-.wealth-app [style*="background:var(--ink);color:#fff"]{background:linear-gradient(135deg,#172821,#223a30)!important;box-shadow:0 7px 18px rgba(17,38,30,.12)}
+.wealth-app [style*="background:var(--panel);color:#fff"]{background:linear-gradient(135deg,#172821,#223a30)!important;box-shadow:0 7px 18px rgba(17,38,30,.12)}
 .wealth-app details summary::-webkit-details-marker{display:none}
 .wealth-app details[open] summary{color:var(--ink)!important}
 .glass-header{background:rgba(250,251,247,.78)!important;backdrop-filter:blur(18px) saturate(1.25)!important;box-shadow:0 8px 30px rgba(20,40,33,.06)}
 .glass-nav{background:rgba(248,249,245,.88)!important;backdrop-filter:blur(20px) saturate(1.3)!important;box-shadow:0 -12px 35px rgba(20,40,33,.08)}
 @media(max-width:759px){.app-content:before{inset:0;background-size:24px 24px}.wealth-app [style*="border-radius:14px;background:var(--card)"]{box-shadow:0 10px 26px rgba(24,48,40,.05)}}
+.theme-dark.wealth-app{background:radial-gradient(circle at 82% -8%,rgba(70,180,128,.10),transparent 33%),radial-gradient(circle at 12% 108%,rgba(90,130,200,.08),transparent 32%),linear-gradient(155deg,#10160f 0%,#121a14 55%,#0d130f 100%)!important}
+.theme-dark .app-content:before{background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px)}
+.theme-dark.wealth-app [style*="border-radius:14px;background:var(--card)"],.theme-dark.wealth-app [style*="border-radius:13px;background:var(--card)"],.theme-dark.wealth-app [style*="border-radius:12px;background:var(--card)"]{border-color:rgba(255,255,255,.07)!important;box-shadow:0 1px 2px rgba(0,0,0,.28),0 16px 40px rgba(0,0,0,.34)!important}
+.theme-dark.wealth-app [style*="background:var(--paper)"]{border-color:rgba(255,255,255,.07)!important}
+.theme-dark.wealth-app [style*="background:var(--panel);color:#fff"]{background:linear-gradient(135deg,#2b3a31,#37493f)!important;box-shadow:0 7px 18px rgba(0,0,0,.3)!important}
+.theme-dark .glass-header{background:rgba(20,26,22,.82)!important;box-shadow:0 8px 30px rgba(0,0,0,.3)}
+.theme-dark .glass-nav{background:rgba(17,22,19,.94)!important;box-shadow:0 -12px 35px rgba(0,0,0,.4)}
+.theme-dark .app-sidebar{background:linear-gradient(180deg,#0c120e 0%,#0a0f0c 60%,#080c09 100%)!important}
+.theme-dark.wealth-app [style*="background:#eef2ee"]{background:rgba(255,255,255,.08)!important;color:var(--ink)!important}
+.theme-dark.wealth-app [style*="background:#e8f1eb"]{background:rgba(79,181,133,.16)!important}
+.theme-dark.wealth-app [style*="background:#fbf1ec"]{background:rgba(209,138,110,.14)!important;border-color:rgba(209,138,110,.32)!important}
+.theme-dark.wealth-app [style*="background:#eef5f0"]{background:rgba(79,181,133,.16)!important;border-color:rgba(79,181,133,.32)!important}
 </style>
 </helmet>
 
-<div class="wealth-app" style="{{ rootStyle }}">
+<div class="wealth-app {{ themeClass }}" style="{{ rootStyle }}">
 
   <sc-if value="{{ isSidebar }}" hint-placeholder-val="{{ true }}">
     <aside class="app-sidebar" style="width:230px;flex:none;background:var(--paper);border-right:1px solid var(--line);height:100vh;position:sticky;top:0;display:flex;flex-direction:column;padding:22px 16px">
@@ -395,9 +408,12 @@ input{font-family:inherit}
           <button onclick="{{ n.onClick }}" style="{{ n.sideStyle }}"><span style="color:{{ n.iconColor }};display:flex"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="{{ n.icon }}"></path></svg></span>{{ n.label }}</button>
         </sc-for>
       </div>
-      <div style="margin-top:auto;display:flex;align-items:center;gap:10px;padding:12px 8px 4px;border-top:1px solid var(--line)">
-        <span style="width:30px;height:30px;border-radius:50%;background:var(--green);color:#fff;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none">SK</span>
-        <span style="display:flex;flex-direction:column"><span style="font-size:13px;font-weight:600">Selin K.</span><span style="font-size:11px;color:var(--faint)">Bireysel hesap</span></span>
+      <div style="margin-top:auto;display:flex;flex-direction:column;gap:8px;padding-top:12px">
+        <button onclick="{{ toggleTheme }}" style="display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--card);color:var(--muted);font-family:inherit;font-size:13px;font-weight:600;padding:9px 11px;border-radius:9px;cursor:pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="{{ themeIcon }}"></path></svg>{{ themeLabel }}</button>
+        <div style="display:flex;align-items:center;gap:10px;padding:10px 8px 2px;border-top:1px solid var(--line)">
+          <span style="width:30px;height:30px;border-radius:50%;background:var(--green);color:#fff;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none">{{ userInitials }}</span>
+          <span style="display:flex;flex-direction:column;min-width:0"><input value="{{ userName }}" onchange="{{ onUserName }}" aria-label="İsim" title="İsmini düzenle" style="font-family:inherit;font-size:13px;font-weight:600;color:inherit;background:transparent;border:none;border-bottom:1px dashed rgba(255,255,255,.28);outline:none;padding:0 0 1px;width:100%;max-width:130px"><span style="font-size:11px;color:var(--faint)">Bireysel hesap</span></span>
+        </div>
       </div>
     </aside>
   </sc-if>
@@ -412,14 +428,20 @@ input{font-family:inherit}
             <button onclick="{{ n.onClick }}" style="{{ n.topStyle }}"><span style="color:{{ n.iconColor }};display:flex"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="{{ n.icon }}"></path></svg></span>{{ n.label }}</button>
           </sc-for>
         </div>
-        <span style="width:30px;height:30px;border-radius:50%;background:var(--green);color:#fff;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center">SK</span>
+        <div style="display:flex;align-items:center;gap:10px">
+          <button onclick="{{ toggleTheme }}" title="{{ themeLabel }}" style="width:34px;height:34px;border:1px solid var(--line);border-radius:9px;background:var(--card);color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="{{ themeIcon }}"></path></svg></button>
+          <span style="width:30px;height:30px;border-radius:50%;background:var(--green);color:#fff;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center">{{ userInitials }}</span>
+        </div>
       </header>
     </sc-if>
 
     <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
       <header class="glass-header" style="position:sticky;top:0;z-index:20;background:rgba(250,249,246,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:14px 16px">
         <span style="font-family:Spectral,serif;font-size:19px;font-weight:600">{{ screenTitle }}</span>
-        <sc-if value="{{ onAssets }}" hint-placeholder-val="{{ false }}"><button onclick="{{ openAdd }}" style="border:none;background:var(--ink);color:#fff;font-family:inherit;font-size:13px;font-weight:600;padding:8px 13px;border-radius:8px;cursor:pointer">+ Ekle</button></sc-if>
+        <div style="display:flex;align-items:center;gap:8px">
+          <button onclick="{{ toggleTheme }}" title="{{ themeLabel }}" style="width:34px;height:34px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="{{ themeIcon }}"></path></svg></button>
+          <sc-if value="{{ onAssets }}" hint-placeholder-val="{{ false }}"><button onclick="{{ openAdd }}" style="border:none;background:var(--panel);color:#fff;font-family:inherit;font-size:13px;font-weight:600;padding:8px 13px;border-radius:8px;cursor:pointer">+ Ekle</button></sc-if>
+        </div>
       </header>
     </sc-if>
 
@@ -505,13 +527,13 @@ input{font-family:inherit}
               <div style="font-family:Spectral,serif;font-size:24px;font-weight:600">Varlıklar</div>
               <div style="font-size:13px;color:var(--muted);margin-top:4px">Toplam {{ totalValueStr }} · {{ contribStr }}/ay katkı</div>
             </div>
-            <button onclick="{{ openAdd }}" style="border:none;background:var(--ink);color:#fff;font-family:inherit;font-size:13px;font-weight:600;padding:10px 16px;border-radius:9px;cursor:pointer;display:flex;align-items:center;gap:7px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Varlık ekle</button>
+            <button onclick="{{ openAdd }}" style="border:none;background:var(--panel);color:#fff;font-family:inherit;font-size:13px;font-weight:600;padding:10px 16px;border-radius:9px;cursor:pointer;display:flex;align-items:center;gap:7px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Varlık ekle</button>
           </div>
           <div style="display:grid;grid-template-columns:{{ cardCols }};gap:14px">
             <sc-for list="{{ assets }}" as="a" hint-placeholder-count="5">
               <div style="border:1px solid var(--line);border-radius:13px;background:var(--card);padding:16px 18px;display:flex;flex-direction:column;gap:13px">
                 <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
-                  <div style="display:flex;align-items:center;gap:10px;min-width:0">
+                  <div onclick="{{ a.onOpen }}" style="display:flex;align-items:center;gap:10px;min-width:0;cursor:pointer">
                     <span style="width:12px;height:12px;border-radius:4px;flex:none;background:{{ a.color }}"></span>
                     <span style="display:flex;flex-direction:column;gap:3px;min-width:0">
                       <span style="font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ a.name }}</span>
@@ -519,6 +541,7 @@ input{font-family:inherit}
                     </span>
                   </div>
                   <div style="display:flex;gap:5px;flex:none">
+                    <button onclick="{{ a.onOpen }}" title="Detay" style="width:28px;height:28px;border:1px solid var(--line);border-radius:7px;background:var(--paper);color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></button>
                     <button onclick="{{ a.onEdit }}" style="width:28px;height:28px;border:1px solid var(--line);border-radius:7px;background:var(--paper);color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"></path></svg></button>
                     <button onclick="{{ a.onDelete }}" style="width:28px;height:28px;border:1px solid var(--line);border-radius:7px;background:var(--paper);color:var(--clay);cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"></path></svg></button>
                   </div>
@@ -643,7 +666,7 @@ input{font-family:inherit}
                 <div style="position:absolute;top:7px;left:{{ compareAPct }}%;transform:translateX(-50%);opacity:{{ compareAOpacity }};pointer-events:none;background:var(--green);color:#fff;border-radius:5px;padding:2px 6px;font-size:9px;font-weight:700">A</div>
                 <div style="position:absolute;top:7px;left:{{ compareBPct }}%;transform:translateX(-50%);opacity:{{ compareBOpacity }};pointer-events:none;background:var(--blue);color:#fff;border-radius:5px;padding:2px 6px;font-size:9px;font-weight:700">B</div>
 
-                <div style="position:absolute;top:4px;left:{{ hPct }}%;transform:{{ tipShift }};opacity:{{ hoverOpacity }};transition:opacity .1s;pointer-events:none;background:var(--ink);color:#f3efe9;border-radius:9px;padding:11px 13px;min-width:178px;box-shadow:0 10px 28px -10px rgba(0,0,0,.55);z-index:5">
+                <div style="position:absolute;top:4px;left:{{ hPct }}%;transform:{{ tipShift }};opacity:{{ hoverOpacity }};transition:opacity .1s;pointer-events:none;background:var(--panel);color:#f3efe9;border-radius:9px;padding:11px 13px;min-width:178px;box-shadow:0 10px 28px -10px rgba(0,0,0,.55);z-index:5">
                   <div style="font-size:11px;color:#b6ae9f;font-weight:600;letter-spacing:.04em;text-transform:uppercase">{{ tipDate }}</div>
                   <div style="font-size:17px;font-weight:700;margin-top:3px;font-variant-numeric:tabular-nums">{{ tipTotal }}</div>
                   <div style="font-size:10px;color:#9a948b;margin-top:2px">Kötümser – İyimser: {{ tipRange }}</div>
@@ -717,7 +740,7 @@ input{font-family:inherit}
             </div>
           </div>
 
-          <div style="margin-top:18px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding:22px 24px;border-radius:14px;background:var(--ink);color:#f3efe9">
+          <div style="margin-top:18px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding:22px 24px;border-radius:14px;background:var(--panel);color:#f3efe9">
             <div>
               <div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#b6ae9f;font-weight:600">{{ horizonLabel }} sonra · {{ scenarioName }}</div>
               <div style="font-family:Spectral,serif;font-size:38px;font-weight:600;margin-top:6px;font-variant-numeric:tabular-nums">{{ proj }}</div>
@@ -725,6 +748,199 @@ input{font-family:inherit}
               <div style="font-size:12px;color:#9a948b;margin-top:3px;font-variant-numeric:tabular-nums">Yatırılan {{ investedEnd }} · {{ inflName }} {{ inflEnd }}</div>
             </div>
             <div style="font-size:13px;color:#cfc8ba;max-width:330px;text-wrap:pretty;text-align:right">Senaryo farkı yalnızca riskli varlıklardan doğar. <b style="color:#fff">Risksiz</b> varlıkların payı arttıkça aralık daralır. Net varlık <b style="color:#fff">{{ inflName }}</b>nın üstünde kaldıkça reel büyürsün.</div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ===================== ANALİZ ===================== -->
+      <sc-if value="{{ scAnalysis }}" hint-placeholder-val="{{ false }}">
+        <div style="max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:16px">
+          <div>
+            <div style="font-family:Spectral,serif;font-size:24px;font-weight:600">Analiz</div>
+            <div style="font-size:13px;color:var(--muted);margin-top:4px;max-width:600px;text-wrap:pretty">Portföyünün dağılımı, büyümeye katkısı, gerçek kayıt geçmişin, nakit akışı ve enflasyondan arındırılmış reel getirisi — tek ekranda.</div>
+          </div>
+
+          <!-- KPI şeridi -->
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:1px;border:1px solid var(--line);border-radius:13px;overflow:hidden;background:var(--line)">
+            <div style="background:var(--card);padding:15px 16px">
+              <div style="font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);font-weight:600">Net varlık</div>
+              <div style="font-family:Spectral,serif;font-size:23px;font-weight:600;margin-top:5px;font-variant-numeric:tabular-nums">{{ analysisNet }}</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:3px">{{ analysisHorizon }} ufku</div>
+            </div>
+            <div style="background:var(--card);padding:15px 16px">
+              <div style="font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);font-weight:600">Çeşitlendirme</div>
+              <div style="font-family:Spectral,serif;font-size:23px;font-weight:600;margin-top:5px;color:var(--teal)">{{ divPctStr }}</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:3px">{{ divLabel }}</div>
+            </div>
+            <div style="background:var(--card);padding:15px 16px">
+              <div style="font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);font-weight:600">Yıllık katkı</div>
+              <div style="font-family:Spectral,serif;font-size:23px;font-weight:600;margin-top:5px;font-variant-numeric:tabular-nums">{{ annualContribStr }}</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:3px">{{ monthlyContribStr }}/ay planı</div>
+            </div>
+            <div style="background:var(--card);padding:15px 16px">
+              <div style="font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);font-weight:600">Enflasyonu aşma</div>
+              <div style="font-family:Spectral,serif;font-size:23px;font-weight:600;margin-top:5px;color:var(--green)">{{ beatProbStr }}</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:3px">olasılık · {{ analysisHorizon }}</div>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px">
+            <!-- Dağılım -->
+            <div style="border:1px solid var(--line);border-radius:14px;background:var(--card);padding:18px 20px">
+              <div style="font-size:14px;font-weight:600">Dağılım ve çeşitlendirme</div>
+              <div style="display:flex;align-items:center;gap:18px;margin-top:14px;flex-wrap:wrap">
+                <svg viewBox="0 0 140 140" style="width:148px;height:148px;flex:none">
+                  <g transform="rotate(-90 70 70)">
+                    <circle cx="70" cy="70" r="52" fill="none" stroke="var(--line)" stroke-width="17"></circle>
+                    <sc-for list="{{ donutSegs }}" as="seg" hint-placeholder-count="5"><circle cx="70" cy="70" r="52" fill="none" stroke="{{ seg.color }}" stroke-width="17" style="stroke-dasharray:{{ seg.dash }};stroke-dashoffset:-{{ seg.offset }};transition:stroke-dasharray .5s ease,stroke-dashoffset .5s ease"></circle></sc-for>
+                  </g>
+                  <text x="70" y="65" text-anchor="middle" style="font-family:Spectral,serif;font-size:17px;font-weight:600;fill:var(--ink)">{{ topPctStr }}</text>
+                  <text x="70" y="82" text-anchor="middle" style="font-size:7.5px;letter-spacing:.04em;fill:var(--muted)">EN BÜYÜK PAY</text>
+                </svg>
+                <div style="flex:1;min-width:140px;display:flex;flex-direction:column;gap:8px">
+                  <sc-for list="{{ donutSegs }}" as="seg" hint-placeholder-count="5">
+                    <div style="display:flex;align-items:center;gap:8px"><span style="width:9px;height:9px;border-radius:2px;flex:none;background:{{ seg.color }}"></span><span style="font-size:12px;font-weight:500;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ seg.name }}</span><span style="font-size:12px;font-weight:700;font-variant-numeric:tabular-nums">%{{ seg.pct }}</span></div>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="margin-top:16px;border-top:1px solid var(--line);padding-top:13px">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:10px"><span style="font-size:11px;color:var(--muted)">Çeşitlendirme skoru</span><span style="font-size:12px;font-weight:700;color:var(--teal)">{{ divPctStr }} · {{ divLabel }}</span></div>
+                <div style="height:7px;background:var(--line);border-radius:99px;margin-top:8px;overflow:hidden"><div style="{{ divBarStyle }}"></div></div>
+                <div style="font-size:10px;color:var(--faint);margin-top:7px;text-wrap:pretty">En büyük pay <b style="color:var(--ink)">{{ topName }}</b> ({{ topPctStr }}). Skor 100'e yaklaştıkça varlıklar daha dengeli dağılır.</div>
+              </div>
+            </div>
+
+            <!-- Büyümeye katkı -->
+            <div style="border:1px solid var(--line);border-radius:14px;background:var(--card);padding:18px 20px">
+              <div style="font-size:14px;font-weight:600">Büyümeye katkı</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:4px">Her varlığın {{ analysisHorizon }} boyunca beklenen değer artışındaki payı.</div>
+              <div style="display:flex;flex-direction:column;gap:13px;margin-top:15px">
+                <sc-for list="{{ contribBars }}" as="cb" hint-placeholder-count="5">
+                  <div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:5px"><span style="display:flex;align-items:center;gap:8px;min-width:0"><span style="width:9px;height:9px;border-radius:2px;flex:none;background:{{ cb.color }}"></span><span style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ cb.name }}</span></span><span style="font-size:12px;font-weight:700;font-variant-numeric:tabular-nums">{{ cb.valueStr }} · %{{ cb.pct }}</span></div>
+                    <div style="height:8px;background:var(--line);border-radius:99px;overflow:hidden"><div style="width:{{ cb.barW }}%;height:100%;background:{{ cb.color }};border-radius:99px;transition:width .4s ease"></div></div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px">
+                <div style="border:1px solid var(--line);background:var(--paper);border-radius:10px;padding:11px 13px"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--faint);font-weight:600">En iyi getiri</div><div style="display:flex;align-items:center;gap:7px;margin-top:6px"><span style="width:9px;height:9px;border-radius:2px;flex:none;background:{{ bestColor }}"></span><span style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ bestName }}</span></div><div style="font-size:13px;font-weight:700;color:var(--green);margin-top:4px">{{ bestRate }}</div></div>
+                <div style="border:1px solid var(--line);background:var(--paper);border-radius:10px;padding:11px 13px"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--faint);font-weight:600">En düşük getiri</div><div style="display:flex;align-items:center;gap:7px;margin-top:6px"><span style="width:9px;height:9px;border-radius:2px;flex:none;background:{{ worstColor }}"></span><span style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ worstName }}</span></div><div style="font-size:13px;font-weight:700;color:var(--clay);margin-top:4px">{{ worstRate }}</div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gerçek kayıt geçmişi -->
+          <div style="border:1px solid var(--line);border-radius:14px;background:var(--card);padding:18px 20px">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap">
+              <div>
+                <div style="font-size:14px;font-weight:600">Gerçek kayıt geçmişi</div>
+                <div style="font-size:11px;color:var(--muted);margin-top:4px;max-width:380px;text-wrap:pretty">Her ay net varlığını kaydet; bu seri gerçekleşen birikimini gösterir. <sc-if value="{{ sampleHist }}" hint-placeholder-val="{{ false }}"><b style="color:var(--clay)">Şu an örnek veri gösteriliyor.</b></sc-if></div>
+              </div>
+              <div style="display:flex;gap:8px;flex:none;flex-wrap:wrap">
+                <button onclick="{{ recordSnap }}" style="border:none;background:var(--panel);color:#fff;font-family:inherit;font-size:12px;font-weight:600;padding:9px 13px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Bu ayı kaydet</button>
+                <button onclick="{{ clearSnaps }}" style="border:1px solid var(--line);background:var(--paper);color:var(--muted);font-family:inherit;font-size:12px;font-weight:600;padding:9px 12px;border-radius:8px;cursor:pointer">Temizle</button>
+              </div>
+            </div>
+            <sc-if value="{{ hasHist }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;align-items:baseline;gap:12px;margin-top:14px;flex-wrap:wrap">
+                <span style="font-size:13px;color:var(--muted)">{{ histFirst }} → {{ histLast }}</span>
+                <span style="font-size:15px;font-weight:700;font-variant-numeric:tabular-nums;color:{{ histChangeColor }}">{{ histChangeStr }} · {{ histChangePct }}</span>
+              </div>
+              <div style="position:relative;margin-top:10px">
+                <svg viewBox="0 0 300 92" preserveAspectRatio="none" style="display:block;width:100%;height:100px">
+                  <path d="{{ histArea }}" fill="var(--green)" fill-opacity=".12"></path>
+                  <path d="{{ histPath }}" fill="none" stroke="var(--green)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>
+                </svg>
+                <sc-for list="{{ histDots }}" as="hd" hint-placeholder-count="6"><span style="position:absolute;left:{{ hd.leftPct }}%;top:{{ hd.topPct }}%;transform:translate(-50%,-50%);width:7px;height:7px;border-radius:50%;background:var(--green);border:2px solid var(--card)"></span></sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ sampleHist }}" hint-placeholder-val="{{ false }}"><div style="font-size:11px;color:var(--faint);margin-top:10px">“Bu ayı kaydet” dediğinde örnek seri yerini gerçek kayıtlarına bırakır.</div></sc-if>
+          </div>
+
+          <!-- Nakit akışı -->
+          <div style="border:1px solid var(--line);border-radius:14px;background:var(--card);padding:18px 20px">
+            <div style="font-size:14px;font-weight:600">Nakit akışı ve hedef</div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;margin-top:14px;border:1px solid var(--line);border-radius:11px;overflow:hidden;background:var(--line)">
+              <div style="background:var(--paper);padding:12px 14px"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--faint);font-weight:600">Yıllık katkı</div><div style="font-size:17px;font-weight:700;margin-top:5px;font-variant-numeric:tabular-nums">{{ annualContribStr }}</div></div>
+              <div style="background:var(--paper);padding:12px 14px"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--faint);font-weight:600">Hedefe kalan</div><div style="font-size:17px;font-weight:700;margin-top:5px;font-variant-numeric:tabular-nums">{{ remainingGoalStr }}</div></div>
+              <div style="background:var(--paper);padding:12px 14px"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--faint);font-weight:600">Tahmini süre</div><div style="font-size:17px;font-weight:700;margin-top:5px;color:var(--green)">{{ goalDurationText }}</div></div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px"><span style="font-size:11px;color:var(--muted)">Hedefin karşılanan kısmı</span><span style="font-size:12px;font-weight:700">{{ goalCoveredStr }}</span></div>
+            <div style="height:7px;background:var(--line);border-radius:99px;margin-top:8px;overflow:hidden"><div style="{{ goalCoverBar }}"></div></div>
+            <div style="font-size:11px;color:var(--muted);margin-top:16px;margin-bottom:9px">Önümüzdeki 12 ay · planlanan aylık katkı</div>
+            <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px">
+              <sc-for list="{{ cfMonths }}" as="m" hint-placeholder-count="12"><div style="{{ m.heatStyle }}"><span style="font-size:10px;font-weight:700">{{ m.label }}</span><span style="font-size:8.5px;opacity:.9">{{ m.valueStr }}</span></div></sc-for>
+            </div>
+          </div>
+
+          <!-- Vergi & reel getiri -->
+          <div style="border:1px solid var(--line);border-radius:14px;background:var(--card);padding:18px 20px;overflow:auto">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap">
+              <div>
+                <div style="font-size:14px;font-weight:600">Vergi ve reel getiri</div>
+                <div style="font-size:11px;color:var(--muted);margin-top:4px;max-width:420px;text-wrap:pretty">{{ analysisHorizon }} sonra nominal değer, bugünün alım gücüyle reel değer ve vergi sonrası reel kazanç. Vergi (stopaj) oranı yalnızca kazanca uygulanır.</div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:5px;flex:none"><span style="font-size:9px;text-transform:uppercase;letter-spacing:.05em;color:var(--faint);font-weight:600">Vergi / stopaj</span><div style="display:flex;align-items:center;border:1px solid var(--line);border-radius:8px;padding:7px 10px;gap:2px;background:var(--paper)"><span style="color:var(--muted);font-size:13px">%</span><input value="{{ taxRate }}" onchange="{{ onTaxRate }}" inputmode="decimal" style="width:46px;border:none;outline:none;background:transparent;font-size:14px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums"></div></div>
+            </div>
+            <div style="min-width:560px;margin-top:14px">
+              <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;gap:10px;padding:0 6px 8px;font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--faint);font-weight:600"><span>Varlık</span><span style="text-align:right">Bugün</span><span style="text-align:right">Nominal</span><span style="text-align:right">Reel</span><span style="text-align:right">Vergi sonrası reel</span></div>
+              <sc-for list="{{ realRows }}" as="r" hint-placeholder-count="5"><div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;gap:10px;padding:9px 6px;border-top:1px solid var(--line);font-size:12px;font-variant-numeric:tabular-nums;align-items:center"><span style="display:flex;align-items:center;gap:7px;font-weight:600"><span style="width:8px;height:8px;border-radius:2px;flex:none;background:{{ r.color }}"></span>{{ r.name }}</span><span style="text-align:right;color:var(--muted)">{{ r.nowStr }}</span><span style="text-align:right">{{ r.nomStr }}</span><span style="text-align:right">{{ r.realStr }}</span><span style="text-align:right;font-weight:700;color:{{ r.afterColor }}">{{ r.afterStr }}</span></div></sc-for>
+              <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;gap:10px;padding:11px 6px;border-top:2px solid var(--line);font-size:12px;font-variant-numeric:tabular-nums;align-items:center"><span style="font-weight:700">Portföy toplamı</span><span style="text-align:right;color:var(--muted)">{{ realTotalRow.nowStr }}</span><span style="text-align:right;font-weight:600">{{ realTotalRow.nomStr }}</span><span style="text-align:right;font-weight:600">{{ realTotalRow.realStr }}</span><span style="text-align:right;font-weight:700;color:{{ realTotalRow.afterColor }}">{{ realTotalRow.afterStr }}</span></div>
+            </div>
+            <div style="font-size:10px;color:var(--faint);margin-top:11px;text-wrap:pretty">Reel değer = nominal ÷ birikimli enflasyon. Reel kazanç pozitifse alım gücün artıyor demektir. Vergi tahmini bilgilendirme amaçlıdır.</div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ===================== VARLIK DETAYI ===================== -->
+      <sc-if value="{{ hasDetail }}" hint-placeholder-val="{{ false }}">
+        <div style="max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:16px">
+          <button onclick="{{ backFromDetail }}" style="display:inline-flex;align-items:center;gap:7px;border:none;background:transparent;color:var(--muted);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;padding:0;width:max-content"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"></path></svg>Varlıklara dön</button>
+
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap">
+            <div>
+              <div style="display:flex;align-items:center;gap:11px">
+                <span style="width:14px;height:14px;border-radius:4px;flex:none;background:{{ detail.color }}"></span>
+                <span style="font-family:Spectral,serif;font-size:26px;font-weight:600">{{ detail.name }}</span>
+                <sc-if value="{{ detail.riskFree }}" hint-placeholder-val="{{ false }}"><span style="font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--teal);font-weight:700;border:1px solid var(--teal);border-radius:99px;padding:3px 8px">risksiz</span></sc-if>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:12px;margin-top:10px">
+                <span style="font-family:Spectral,serif;font-size:34px;font-weight:600;font-variant-numeric:tabular-nums">{{ detail.valueStr }}</span>
+                <span style="font-size:13px;color:var(--muted)">portföyün %{{ detail.allocPct }}'i</span>
+              </div>
+            </div>
+            <button onclick="{{ detail.onEdit }}" style="border:1px solid var(--line);background:var(--paper);color:var(--ink);font-family:inherit;font-size:13px;font-weight:600;padding:10px 15px;border-radius:9px;cursor:pointer;display:flex;align-items:center;gap:7px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"></path></svg>Düzenle</button>
+          </div>
+
+          <div style="border:1px solid var(--line);border-radius:14px;background:var(--card);padding:18px 20px">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+              <div style="font-size:14px;font-weight:600">Değer gelişimi</div>
+              <div style="display:flex;gap:16px;font-size:11px;color:var(--muted)"><span style="display:inline-flex;align-items:center;gap:6px"><span style="width:14px;border-top:2px solid {{ detail.color }}"></span>Model</span><span style="display:inline-flex;align-items:center;gap:6px"><span style="width:9px;height:9px;border-radius:50%;background:var(--green);border:2px solid var(--card)"></span>Kayıtlı nokta</span></div>
+            </div>
+            <div style="position:relative;margin-top:14px">
+              <svg viewBox="0 0 1000 240" preserveAspectRatio="none" style="display:block;width:100%;height:{{ detail.dH }}">
+                <defs><linearGradient id="dg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{{ detail.color }}" stop-opacity=".18"></stop><stop offset="1" stop-color="{{ detail.color }}" stop-opacity="0"></stop></linearGradient></defs>
+                <path d="{{ detail.dArea }}" fill="url(#dg)"></path>
+                <path d="{{ detail.dPast }}" fill="none" stroke="{{ detail.color }}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>
+                <path d="{{ detail.dFut }}" fill="none" stroke="{{ detail.color }}" stroke-width="2.2" stroke-dasharray="5 7" stroke-linecap="round" vector-effect="non-scaling-stroke"></path>
+              </svg>
+              <span style="position:absolute;left:{{ detail.dTodayLeft }}%;top:{{ detail.dTodayTop }}%;transform:translate(-50%,-50%);width:9px;height:9px;border-radius:50%;background:var(--card);border:2.5px solid {{ detail.color }}"></span>
+              <sc-for list="{{ detail.dDots }}" as="dd" hint-placeholder-count="6"><span style="position:absolute;left:{{ dd.leftPct }}%;top:{{ dd.topPct }}%;transform:translate(-50%,-50%);width:7px;height:7px;border-radius:50%;background:var(--green);border:2px solid var(--card)"></span></sc-for>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;border:1px solid var(--line);border-radius:13px;overflow:hidden;background:var(--line)">
+            <div style="background:var(--card);padding:14px 16px"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--faint);font-weight:600">Yıllık getiri</div><div style="font-size:18px;font-weight:700;margin-top:5px">{{ detail.rateStr }}</div></div>
+            <div style="background:var(--card);padding:14px 16px"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--faint);font-weight:600">Aylık katkı</div><div style="font-size:18px;font-weight:700;margin-top:5px;color:var(--green)">{{ detail.contribStr }}</div></div>
+            <div style="background:var(--card);padding:14px 16px"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--faint);font-weight:600">{{ analysisHorizon }} nominal</div><div style="font-size:18px;font-weight:700;margin-top:5px">{{ detail.endStr }}</div></div>
+            <div style="background:var(--card);padding:14px 16px"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--faint);font-weight:600">{{ analysisHorizon }} reel</div><div style="font-size:18px;font-weight:700;margin-top:5px">{{ detail.realStr }}</div></div>
+            <div style="background:var(--card);padding:14px 16px"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--faint);font-weight:600">Büyümeye katkı</div><div style="font-size:18px;font-weight:700;margin-top:5px">{{ detail.growthStr }} · %{{ detail.growShare }}</div></div>
+          </div>
+
+          <div style="border:1px solid var(--line);border-radius:14px;background:var(--card);padding:18px 20px">
+            <div style="font-size:14px;font-weight:600;margin-bottom:4px">Kayıt geçmişi</div>
+            <div style="font-size:11px;color:var(--muted);margin-bottom:6px">Bu varlığın aylık kaydedilen değerleri.</div>
+            <sc-for list="{{ detail.history }}" as="h" hint-placeholder-count="6"><div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 2px;border-top:1px solid var(--line)"><span style="font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px">{{ h.ym }}<sc-if value="{{ h.sample }}" hint-placeholder-val="{{ false }}"><span style="font-size:9px;color:var(--faint);border:1px solid var(--line);border-radius:99px;padding:1px 6px">örnek</span></sc-if></span><span style="font-size:14px;font-weight:600;font-variant-numeric:tabular-nums">{{ h.valueStr }}</span></div></sc-for>
           </div>
         </div>
       </sc-if>
@@ -762,7 +978,7 @@ input{font-family:inherit}
               </div>
             </div>
             <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;align-items:center">
-              <button onclick="{{ refreshUsd }}" style="border:none;background:var(--ink);color:#fff;font-family:inherit;font-size:13px;font-weight:600;padding:10px 15px;border-radius:9px;cursor:pointer;display:flex;align-items:center;gap:8px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="{{ spinStyle }}"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"></path></svg>Bugünün kurunu çek</button>
+              <button onclick="{{ refreshUsd }}" style="border:none;background:var(--panel);color:#fff;font-family:inherit;font-size:13px;font-weight:600;padding:10px 15px;border-radius:9px;cursor:pointer;display:flex;align-items:center;gap:8px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="{{ spinStyle }}"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"></path></svg>Bugünün kurunu çek</button>
               <div style="display:flex;align-items:center;border:1px solid var(--line);border-radius:9px;padding:8px 11px;gap:3px;background:var(--paper)"><span style="color:var(--muted);font-size:14px">₺</span><input value="{{ usdDraft }}" onchange="{{ onUsdDraft }}" inputmode="decimal" placeholder="elle gir" style="width:72px;border:none;outline:none;background:transparent;font-size:14px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums"></div>
               <button onclick="{{ applyUsdManual }}" style="border:1px solid var(--line);background:var(--paper);color:var(--ink);font-family:inherit;font-size:13px;font-weight:600;padding:10px 14px;border-radius:9px;cursor:pointer">Uygula</button>
             </div>
@@ -868,7 +1084,7 @@ input{font-family:inherit}
         </div>
         <div style="display:flex;gap:10px;margin-top:20px">
           <button onclick="{{ cancelEf }}" style="flex:1;border:1px solid var(--line);background:var(--paper);color:var(--muted);font-family:inherit;font-size:14px;font-weight:600;padding:12px;border-radius:10px;cursor:pointer">Vazgeç</button>
-          <button onclick="{{ saveEf }}" style="flex:2;border:none;background:var(--ink);color:#fff;font-family:inherit;font-size:14px;font-weight:600;padding:12px;border-radius:10px;cursor:pointer">Kaydet</button>
+          <button onclick="{{ saveEf }}" style="flex:2;border:none;background:var(--panel);color:#fff;font-family:inherit;font-size:14px;font-weight:600;padding:12px;border-radius:10px;cursor:pointer">Kaydet</button>
         </div>
       </div>
     </div>
@@ -896,6 +1112,7 @@ class Component extends DCLogic {
     usInfl: { value: 4.2, asOf: 'Mayıs 2026 · BLS', loading: false, error: false },
     trInfl: { value: 32.61, asOf: 'Mayıs 2026 · TÜİK', loading: false, error: false },
     autoInflTRY: true, autoInflUSD: true,
+    theme: 'light', snapshots: null, detailId: null, taxRate: '0', userName: 'Selin K.',
   };
 
   PALETTE = ['#5b9e74', '#c2954f', '#bf7a5e', '#5f9aa3', '#94918a', '#5f86c2'];
@@ -920,14 +1137,41 @@ class Component extends DCLogic {
     });
   }
 
+  // Manuel net-değer geçmişi: bugünkü değerlerden geriye yürüyen 12 aylık örnek seri.
+  defaultSnapshots(assets) {
+    const list = (assets && assets.length) ? assets : this.defaults();
+    const cur = list.map(a => this.num(a.value));
+    const ymOf = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+    const out = [];
+    const cNow = {}; list.forEach((a, j) => cNow[a.id] = Math.round(cur[j]));
+    out.push({ ym: ymOf(new Date(2026, 5, 1)), per: cNow, contrib: list.reduce((s, a) => s + (a.contrib || 0), 0), sample: true });
+    let seed = 424242; const rnd = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967297; };
+    for (let m = 1; m <= 12; m++) {
+      const dt = new Date(2026, 5 - m, 1); const per = {}; let ct = 0;
+      list.forEach((a, j) => { const r = this.num(a.rate) / 100; const noise = 1 + (rnd() - 0.5) * 0.05; cur[j] = Math.max(0, (cur[j] - (a.contrib || 0)) / (1 + r / 12)) * noise; per[a.id] = Math.round(cur[j]); ct += (a.contrib || 0); });
+      out.push({ ym: ymOf(dt), per, contrib: ct, sample: true });
+    }
+    return out.reverse();
+  }
+  snapTotal(s) { return Object.values(s.per || {}).reduce((a, b) => a + (Number(b) || 0), 0); }
+  recordSnapshot() {
+    const list = this.assetsList(); const now = new Date();
+    const ym = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+    const per = {}; list.forEach(a => per[a.id] = this.num(a.value));
+    const contrib = list.reduce((s, a) => s + (a.contrib || 0), 0);
+    this.mutate(s => { const others = (s.snapshots || []).filter(x => x.ym !== ym); return { snapshots: [...others, { ym, per, contrib, sample: false }].sort((a, b) => a.ym < b.ym ? -1 : 1) }; });
+  }
+  clearSnapshots() { this.mutate({ snapshots: [] }); }
+
   componentDidMount() {
     const saved = this.load();
     const econFresh = !!(saved && saved.econVersion === this.ECON_VERSION);
+    const seedAssets = this.migrateAssets(saved && saved.assets, econFresh);
     this.setState({
       vw: window.innerWidth,
       navStyle: this.props.navStyle || (saved && saved.navStyle) || 'sidebar',
       currency: (saved && saved.currency) || this.props.currency || '₺',
-      assets: this.migrateAssets(saved && saved.assets, econFresh),
+      assets: seedAssets,
       priceMode: (saved && saved.priceMode) || 'try',
       inflTRY: econFresh && this.validInfl(saved && saved.inflTRY) ? saved.inflTRY : this.state.inflTRY,
       inflUSD: econFresh && this.validInfl(saved && saved.inflUSD) ? saved.inflUSD : this.state.inflUSD,
@@ -942,6 +1186,10 @@ class Component extends DCLogic {
       usdDraft: (saved && saved.usd && saved.usd.rate != null) ? String(saved.usd.rate) : '',
       autoInflTRY: econFresh && saved.autoInflTRY != null ? saved.autoInflTRY : true,
       autoInflUSD: econFresh && saved.autoInflUSD != null ? saved.autoInflUSD : true,
+      theme: (saved && saved.theme) || 'light',
+      userName: (saved && saved.userName) || 'Selin K.',
+      taxRate: (saved && saved.taxRate != null) ? saved.taxRate : '0',
+      snapshots: (saved && Array.isArray(saved.snapshots)) ? saved.snapshots : this.defaultSnapshots(seedAssets),
       anim: 0,
     });
     this._resize = () => this.setState({ vw: window.innerWidth });
@@ -976,7 +1224,7 @@ class Component extends DCLogic {
   load() { try { return JSON.parse(localStorage.getItem('servet:v2')); } catch (e) { return null; } }
   // Yeni {year:{lo,hi}} formatında mı? (eski düz format yok sayılır)
   validInfl(o) { return !!(o && o[1] && o[2] && o[5] && typeof o[1] === 'object'); }
-  save() { try { const { assets, inflTRY, inflUSD, priceMode, navStyle, view, scenario, valueMode, contribMode, contribGrowth, goalName, goalAmount, usd, autoInflTRY, autoInflUSD } = this.state; localStorage.setItem('servet:v2', JSON.stringify({ econVersion: this.ECON_VERSION, assets, inflTRY, inflUSD, priceMode, navStyle, view, scenario, valueMode, contribMode, contribGrowth, goalName, goalAmount, usd, autoInflTRY, autoInflUSD })); } catch (e) {} }
+  save() { try { const { assets, inflTRY, inflUSD, priceMode, navStyle, view, scenario, valueMode, contribMode, contribGrowth, goalName, goalAmount, usd, autoInflTRY, autoInflUSD, theme, snapshots, taxRate, userName } = this.state; localStorage.setItem('servet:v2', JSON.stringify({ econVersion: this.ECON_VERSION, assets, inflTRY, inflUSD, priceMode, navStyle, view, scenario, valueMode, contribMode, contribGrowth, goalName, goalAmount, usd, autoInflTRY, autoInflUSD, theme, snapshots, taxRate, userName })); } catch (e) {} }
   mutate(u) { this.setState(u, () => this.save()); }
 
   todayKey() { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
@@ -1336,7 +1584,7 @@ class Component extends DCLogic {
     for (let i = 0; i < N; i++) { const dt = dateAt(i); if (dt.getMonth() === 0 && dt.getFullYear() % yrStep === 0) xticks.push({ pct: (i / (N - 1) * 100).toFixed(2), label: String(dt.getFullYear()) }); }
 
     this._sig = sig;
-    this._d = { META, per, total, totalN, best, worst, invested, inflArr, inflLo, inflHi, inflPct, priceIndex, goalProbability, goalReachProbability, goalExpectedMonth, goalEarlyMonth, goalLateMonth, goalFutureValue, beatInflationProbability, contributionShare, N, TODAY, view, X, Y, past, fut, area, investedPath, inflPath, inflBand, layers, band, ylabels, xticks, dateAt, todayX: X(TODAY).toFixed(1), todayY: Y(total[TODAY]).toFixed(1), monthlyTotal, initialP, heroTotal: total[TODAY] };
+    this._d = { META, per, total, totalN, best, worst, invested, inflArr, inflLo, inflHi, inflPct, priceIndex, goalProbability, goalReachProbability, goalExpectedMonth, goalEarlyMonth, goalLateMonth, goalFutureValue, beatInflationProbability, contributionShare, N, TODAY, view, X, Y, past, fut, area, investedPath, inflPath, inflBand, layers, band, ylabels, xticks, dateAt, todayX: X(TODAY).toFixed(1), todayY: Y(total[TODAY]).toFixed(1), monthlyTotal, initialP, heroTotal: total[TODAY], perNom: selNom.per, totalNomArr: totalNom, investedNomArr: investedNom, inflNomArr: inflNom, contribFactor };
     return this._d;
   }
 
@@ -1352,7 +1600,9 @@ class Component extends DCLogic {
     const isSidebar = !mob && navStyle === 'sidebar';
     const isTopbar = !mob && navStyle === 'topbar';
 
-    const VARS = "--paper:#f7f6f1;--card:#fffefa;--ink:#18231f;--muted:#6f7a74;--faint:#a7afa9;--line:#e2e6e1;--green:#247d5b;--blue:#4776c8;--gold:#b58a3f;--clay:#bb7057;--teal:#4f9299;--slate:#858e89;";
+    const VARS_L = "--paper:#f7f6f1;--card:#fffefa;--ink:#18231f;--muted:#6f7a74;--faint:#a7afa9;--line:#e2e6e1;--green:#247d5b;--blue:#4776c8;--gold:#b58a3f;--clay:#bb7057;--teal:#4f9299;--slate:#858e89;--panel:#18231f;";
+    const VARS_D = "--paper:#1a201d;--card:#232b27;--ink:#edf2ee;--muted:#9faaa3;--faint:#6e7a73;--line:#333d37;--green:#4fb585;--blue:#6f9be0;--gold:#cda45f;--clay:#d18a6e;--teal:#5fb0b8;--slate:#8b958f;--panel:#2f3f36;";
+    const VARS = this.state.theme === 'dark' ? VARS_D : VARS_L;
     const rootStyle = "min-height:100vh;background:#edf1ed;font-family:'Public Sans',system-ui,sans-serif;color:var(--ink);" + VARS + (isSidebar ? "display:flex;flex-direction:row;align-items:flex-start;" : "display:block;");
     const mainStyle = isSidebar ? "flex:1;min-width:0;min-height:100vh;" : "width:100%;";
     const contentStyle = mob ? "padding:20px 14px 96px;position:relative;z-index:1;" : (isSidebar ? "padding:40px 46px;position:relative;z-index:1;" : "max-width:1140px;margin:0 auto;padding:36px 38px;position:relative;z-index:1;");
@@ -1361,6 +1611,7 @@ class Component extends DCLogic {
       { key: 'overview', label: 'Genel Bakış', icon: 'M3 11.5 12 4l9 7.5M5 10v9h5v-6h4v6h5v-9' },
       { key: 'assets', label: 'Varlıklar', icon: 'M12 3 2 8l10 5 10-5zM2 13l10 5 10-5M2 18l10 5 10-5' },
       { key: 'projection', label: 'Projeksiyon', icon: 'M3 16l5-6 4 4 7-9M3 21h18' },
+      { key: 'analysis', label: 'Analiz', icon: 'M4 4v16h16M8 17v-4M12 17V9M16 17v-6M20 17v-2' },
       { key: 'settings', label: 'Ayarlar', icon: 'M12 9a3 3 0 100 6 3 3 0 000-6zM19.4 13a7.5 7.5 0 000-2l2-1.5-2-3.4-2.3 1a7.5 7.5 0 00-1.7-1L14.9 3h-3.8l-.5 2.6a7.5 7.5 0 00-1.7 1l-2.3-1-2 3.4 2 1.5a7.5 7.5 0 000 2l-2 1.5 2 3.4 2.3-1a7.5 7.5 0 001.7 1l.5 2.6h3.8l.5-2.6a7.5 7.5 0 001.7-1l2.3 1 2-3.4z' },
     ];
     const navItems = NAV.map(n => {
@@ -1370,7 +1621,7 @@ class Component extends DCLogic {
         onClick: () => this.setState({ screen: n.key, hoverIdx: null }),
         iconColor: active ? 'var(--green)' : 'var(--muted)',
         sideStyle: "display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:9px;cursor:pointer;font-size:14px;text-align:left;width:100%;border:none;font-family:inherit;font-weight:" + (active ? '600' : '500') + ";color:" + (active ? 'var(--ink)' : 'var(--muted)') + ";background:" + (active ? '#eef2ee' : 'transparent') + ";",
-        topStyle: "display:flex;align-items:center;gap:7px;padding:7px 13px;border-radius:8px;cursor:pointer;font-size:13px;border:none;font-family:inherit;font-weight:" + (active ? '600' : '500') + ";color:" + (active ? 'var(--ink)' : 'var(--muted)') + ";background:" + (active ? '#eef2ee' : 'transparent') + ";",
+        topStyle: "display:flex;align-items:center;gap:7px;padding:7px 13px;border-radius:8px;cursor:pointer;font-size:13px;border:none;font-family:inherit;font-weight:" + (active ? '600' : '500') + ";color:" + (active ? '#fff' : 'var(--muted)') + ";background:" + (active ? 'var(--panel)' : 'transparent') + ";",
         tabStyle: "flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;cursor:pointer;border:none;background:transparent;font-family:inherit;font-size:10px;font-weight:" + (active ? '600' : '500') + ";color:" + (active ? 'var(--green)' : 'var(--muted)') + ";",
       };
     });
@@ -1385,6 +1636,7 @@ class Component extends DCLogic {
       rateText: (this.effectiveReturn(a, assets) * 100).toFixed(1).replace('.', ','), contribStr: this.fmt(a.contrib || 0),
       onRate: setRate(a.id), contribInc: stepContrib(a.id, 500), contribDec: stepContrib(a.id, -500),
       onEdit: () => this.setState({ editing: { id: a.id, name: a.name, value: String(a.value), rate: String(a.rate), contrib: String(a.contrib || 0), riskFree: !!a.riskFree, color: a.color } }),
+      onOpen: () => this.setState({ screen: 'asset', detailId: a.id, hoverIdx: null }),
       onDelete: () => this.mutate(s => ({ assets: s.assets.filter(x => x.id !== a.id) })),
     }));
 
@@ -1447,10 +1699,11 @@ class Component extends DCLogic {
       { label: 'Birikimli enflasyon', value: '%' + d.inflPct.toFixed(1).replace('.', ','), hint: 'Seçili ufuk boyunca modelin bileşik fiyat artışı' },
     ];
 
-    const segBtn = on => "border:none;padding:7px 16px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;" + (on ? "background:var(--ink);color:#fff;" : "background:var(--card);color:var(--muted);");
-    const compactSegBtn = on => "border:none;padding:5px 10px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;" + (on ? "background:var(--ink);color:#fff;" : "background:var(--card);color:var(--muted);");
-    const tfBtns = [1, 3, 5, 10].map(v => ({ label: v + 'Y', style: segBtn(view === v), onClick: () => this.mutate({ view: v, hoverIdx: null }) }));
-    const scenBtns = ['Kötümser', 'Beklenen', 'İyimser'].map(s => ({ label: s, style: segBtn(scenario === s), onClick: () => this.mutate({ scenario: s }) }));
+    const segBtn = on => "border:none;padding:7px 16px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;" + (on ? "background:var(--panel);color:#fff;" : "background:var(--card);color:var(--muted);");
+    const segBtnSm = on => "border:none;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;" + (on ? "background:var(--panel);color:#fff;" : "background:var(--card);color:var(--muted);");
+    const compactSegBtn = on => "border:none;padding:5px 10px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;" + (on ? "background:var(--panel);color:#fff;" : "background:var(--card);color:var(--muted);");
+    const tfBtns = [1, 3, 5, 10].map(v => ({ label: v + 'Y', style: segBtnSm(view === v), onClick: () => this.mutate({ view: v, hoverIdx: null }) }));
+    const scenBtns = ['Kötümser', 'Beklenen', 'İyimser'].map(s => ({ label: s, style: segBtnSm(scenario === s), onClick: () => this.mutate({ scenario: s }) }));
     const valueBtns = [['nominal', 'Nominal'], ['real', 'Reel']].map(([v, l]) => ({ label: l, style: compactSegBtn(this.state.valueMode === v), onClick: () => this.mutate({ valueMode: v, hoverIdx: null }) }));
     const contribBtns = [['fixed', 'Sabit'], ['inflation', 'Enflasyonla'], ['custom', 'Özel oran']].map(([v, l]) => ({ label: l, style: segBtn(this.state.contribMode === v), onClick: () => this.mutate({ contribMode: v }) }));
     const scenarioRows = assets.map(a => {
@@ -1500,7 +1753,7 @@ class Component extends DCLogic {
     const inflPrevBand = this.sp(prevHi) + ' L' + this.sp(prevLo.slice().reverse()).slice(1) + ' Z';
     const inflDots = this.inflAnchors('mid').map(([yr, r]) => ({ cx: rx(yr).toFixed(1), cy: ry(r).toFixed(1) }));
 
-    const segWide = on => "flex:1;border:1px solid " + (on ? 'var(--ink)' : 'var(--line)') + ";padding:12px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;" + (on ? "background:var(--ink);color:#fff;" : "background:var(--paper);color:var(--muted);");
+    const segWide = on => "flex:1;border:1px solid " + (on ? 'var(--ink)' : 'var(--line)') + ";padding:12px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;" + (on ? "background:var(--panel);color:#fff;" : "background:var(--paper);color:var(--muted);");
     const navBtns = [['sidebar', 'Kenar çubuğu'], ['topbar', 'Üst menü']].map(([k, l]) => ({ label: l, style: segWide(navStyle === k), onClick: () => this.mutate({ navStyle: k }) }));
     const modeBtns = [['try', '₺ TL'], ['usd', '$ USD']].map(([k, l]) => ({ label: l, style: compactSegBtn(this.state.priceMode === k), onClick: () => this.mutate({ priceMode: k, hoverIdx: null }) }));
     const modeWideBtns = [['try', '₺ TL — TR enflasyonu'], ['usd', '$ Dolar — ABD enflasyonu']].map(([k, l]) => ({ label: l, style: segWide(this.state.priceMode === k), onClick: () => this.mutate({ priceMode: k, hoverIdx: null }) }));
@@ -1519,7 +1772,7 @@ class Component extends DCLogic {
       });
     };
 
-    const titleMap = { overview: 'Genel Bakış', assets: 'Varlıklar', projection: 'Projeksiyon', settings: 'Ayarlar' };
+    const titleMap = { overview: 'Genel Bakış', assets: 'Varlıklar', projection: 'Projeksiyon', analysis: 'Analiz', settings: 'Ayarlar', asset: (assets.find(a => a.id === this.state.detailId) || {}).name || 'Varlık' };
     const changeAbs = d.total[TODAY] - d.total[0];
 
     const usd = this.state.usd || {};
@@ -1528,7 +1781,7 @@ class Component extends DCLogic {
     const fmtTRY2 = n => '₺' + Number(n).toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     const isUsd = this.state.priceMode === 'usd';
     const autoInflOn = isUsd ? this.state.autoInflUSD : this.state.autoInflTRY;
-    const segWide2 = on => "flex:1;border:1px solid " + (on ? 'var(--ink)' : 'var(--line)') + ";padding:11px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;" + (on ? "background:var(--ink);color:#fff;" : "background:var(--paper);color:var(--muted);");
+    const segWide2 = on => "flex:1;border:1px solid " + (on ? 'var(--ink)' : 'var(--line)') + ";padding:11px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;" + (on ? "background:var(--panel);color:#fff;" : "background:var(--paper);color:var(--muted);");
     const autoLabel = isUsd ? 'Resmî · BLS / Fed' : 'Resmî · TÜİK / TCMB';
     const autoInflBtns = [[true, autoLabel], [false, 'Elle']].map(([k, l]) => ({ label: l, style: segWide2(autoInflOn === k), onClick: k ? (() => isUsd ? this.fetchUsInfl(true) : this.fetchTrInfl(true)) : (() => this.mutate({ [autoKey]: false })) }));
     const cpi = isUsd ? (this.state.usInfl || {}) : (this.state.trInfl || {});
@@ -1542,6 +1795,78 @@ class Component extends DCLogic {
     };
     const goalDurationText = formatGoalMonths(d.goalExpectedMonth);
     const goalRangeText = d.goalEarlyMonth == null || d.goalLateMonth == null ? 'Yeterli simülasyon sonucu yok' : formatGoalMonths(d.goalEarlyMonth) + ' – ' + formatGoalMonths(d.goalLateMonth);
+
+    // ===== Analiz & detay hesapları =====
+    const endI = N - 1;
+    const totalNow = d.total[TODAY] || 1;
+    const alloc = d.META.map(a => ({ id: a.key, name: a.name, color: a.color, value: d.per[a.key][TODAY], nomNow: d.perNom[a.key][TODAY], nomEnd: d.perNom[a.key][endI], rate: a.rate, contrib: a.contrib, w: d.per[a.key][TODAY] / totalNow }));
+    const allocSorted = alloc.slice().sort((x, y) => y.value - x.value);
+    const DC = 2 * Math.PI * 52; let dacc = 0;
+    const donutSegs = allocSorted.map(a => { const len = a.w * DC; const s = { color: a.color, dash: len.toFixed(2) + ' ' + (DC - len).toFixed(2), offset: dacc.toFixed(2), name: a.name, pct: Math.round(a.w * 100), valueStr: this.fmt(a.value) }; dacc += len; return s; });
+    const hhi = alloc.reduce((s, a) => s + a.w * a.w, 0); const nA = Math.max(alloc.length, 1);
+    const divScore = nA > 1 ? Math.max(0, Math.min(1, 1 - (hhi - 1 / nA) / (1 - 1 / nA))) : 0;
+    const divPct = Math.round(divScore * 100);
+    const divLabel = divPct >= 66 ? 'Yüksek çeşitlendirme' : divPct >= 40 ? 'Orta çeşitlendirme' : 'Yoğunlaşmış portföy';
+    const topName = allocSorted[0] ? allocSorted[0].name : '—';
+    const topPct = allocSorted[0] ? Math.round(allocSorted[0].w * 100) : 0;
+    const gAssets = alloc.map(a => ({ ...a, growth: a.nomEnd - a.nomNow }));
+    const totGrowth = gAssets.reduce((s, a) => s + Math.max(0, a.growth), 0) || 1;
+    const maxGrowth = Math.max(...gAssets.map(a => a.growth), 1);
+    const contribBars = gAssets.slice().sort((x, y) => y.growth - x.growth).map(a => ({ name: a.name, color: a.color, valueStr: this.fmtShort(a.growth), pct: Math.max(0, Math.round(a.growth / totGrowth * 100)), barW: Math.max(1.5, a.growth / maxGrowth * 100).toFixed(1) }));
+    const pctRate = n => '%' + (n * 100).toFixed(1).replace('.', ',');
+    const perfSorted = alloc.slice().sort((x, y) => y.rate - x.rate);
+    const bestAsset = perfSorted[0] || { name: '—', rate: 0, color: 'var(--green)' };
+    const worstAsset = perfSorted[perfSorted.length - 1] || { name: '—', rate: 0, color: 'var(--clay)' };
+    const annualContrib = d.monthlyTotal * 12;
+    const cfMonths = [];
+    for (let kk = 1; kk <= 12; kk++) { const i = Math.min(TODAY + kk, N - 1); const dt2 = new Date(2026, 5 + kk, 1); const c = d.monthlyTotal * (d.contribFactor[i] || 1); cfMonths.push({ label: MON[dt2.getMonth()], valueStr: this.fmtShort(c), raw: c }); }
+    const cfMax = Math.max(...cfMonths.map(m => m.raw), 1);
+    cfMonths.forEach(m => { m.heatStyle = 'aspect-ratio:1;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;color:#fff;background:var(--green);opacity:' + (0.26 + 0.74 * m.raw / cfMax).toFixed(2) + ';'; });
+    const goalInternal = this.num(this.state.goalAmount) * (this.state.priceMode === 'usd' && this.rate() ? this.rate() : 1);
+    const remainingGoal = Math.max(0, goalInternal - d.total[TODAY]);
+    const goalCovered = goalInternal > 0 ? Math.min(100, Math.round(d.total[TODAY] / goalInternal * 100)) : 0;
+    const taxR = this.num(this.state.taxRate) / 100;
+    const realRows = allocSorted.map(a => { const realEnd = a.nomEnd / d.priceIndex[endI]; const realGain = realEnd - a.nomNow; const tax = Math.max(0, a.nomEnd - a.nomNow) * taxR; const afterReal = (a.nomEnd - tax) / d.priceIndex[endI] - a.nomNow; return { name: a.name, color: a.color, nowStr: this.fmt(a.nomNow), nomStr: this.fmt(a.nomEnd), realStr: this.fmt(realEnd), realGainStr: (realGain >= 0 ? '+' : '−') + this.fmt(Math.abs(realGain)), realGainPos: realGain >= 0, afterStr: (afterReal >= 0 ? '+' : '−') + this.fmt(Math.abs(afterReal)), afterColor: afterReal >= 0 ? 'var(--green)' : 'var(--clay)' }; });
+    const portNomEnd = d.totalNomArr[endI], portRealEnd = portNomEnd / d.priceIndex[endI];
+    const portRealGain = portRealEnd - d.total[TODAY];
+    const portTax = Math.max(0, portNomEnd - d.total[TODAY]) * taxR; const portAfter = (portNomEnd - portTax) / d.priceIndex[endI] - d.total[TODAY];
+    const realTotalRow = { nowStr: this.fmt(d.total[TODAY]), nomStr: this.fmt(portNomEnd), realStr: this.fmt(portRealEnd), realGainStr: (portRealGain >= 0 ? '+' : '−') + this.fmt(Math.abs(portRealGain)), realGainPos: portRealGain >= 0, afterStr: (portAfter >= 0 ? '+' : '−') + this.fmt(Math.abs(portAfter)), afterColor: portAfter >= 0 ? 'var(--green)' : 'var(--clay)' };
+    const snaps = (this.state.snapshots || []).slice().sort((a, b) => a.ym < b.ym ? -1 : 1);
+    const snapTot = snaps.map(s => ({ ym: s.ym, total: this.snapTotal(s) }));
+    const hasHist = snapTot.length >= 2;
+    let histPath = '', histArea = '', histDots = [], histChangeStr = '—', histChangePos = true, histChangePct = '', histFirst = '', histLast = '';
+    if (hasHist) {
+      const HW = 300, HH = 92, vals = snapTot.map(s => s.total); const mn = Math.min(...vals), mx = Math.max(...vals);
+      const xh = i => (i / (snapTot.length - 1)) * HW; const yh = v => 8 + (1 - (v - mn) / Math.max(mx - mn, 1)) * (HH - 16);
+      const pts = snapTot.map((s, i) => ({ x: xh(i), y: yh(s.total) }));
+      histPath = this.sp(pts); histArea = this.sp(pts) + ' L' + HW + ',' + HH + ' L0,' + HH + ' Z';
+      histDots = pts.map((p, i) => ({ leftPct: (p.x / HW * 100).toFixed(2), topPct: (p.y / HH * 100).toFixed(2), last: i === pts.length - 1 }));
+      const ch = snapTot[snapTot.length - 1].total - snapTot[0].total; histChangePos = ch >= 0;
+      histChangeStr = (ch >= 0 ? '+' : '−') + this.fmt(Math.abs(ch));
+      histChangePct = (ch >= 0 ? '+' : '−') + '%' + Math.abs(snapTot[0].total ? ch / snapTot[0].total * 100 : 0).toFixed(1).replace('.', ',');
+      const ymL = ym => { const p = ym.split('-'); return MON[+p[1] - 1] + ' ' + p[0].slice(2); };
+      histFirst = ymL(snapTot[0].ym); histLast = ymL(snapTot[snapTot.length - 1].ym);
+    }
+    const sampleHist = snaps.length > 0 && snaps.every(s => s.sample);
+    const curYm = new Date().getFullYear() + '-' + String(new Date().getMonth() + 1).padStart(2, '0');
+    const detA = assets.find(a => a.id === this.state.detailId);
+    let detail = null;
+    if (detA) {
+      const id = detA.id, arr = d.perNom[id] || [];
+      const DW = 1000, DH = 240, dp = 14;
+      const dmn = Math.min(...arr), dmx = Math.max(...arr);
+      const dxf = i => (i / (N - 1)) * DW; const dyf = v => dp + (1 - (v - dmn) / Math.max(dmx - dmn, 1)) * (DH - 2 * dp);
+      const dpts = arr.map((v, i) => ({ x: dxf(i), y: dyf(v) }));
+      const dBaseY = (DH - dp).toFixed(1);
+      const dDots = snaps.map(s => { const p = s.ym.split('-'); const off = (+p[0] - 2026) * 12 + (+p[1] - 6); const i = TODAY + off; if (i < 0 || i > N - 1 || s.per[id] == null) return null; return { leftPct: (dxf(i) / DW * 100).toFixed(2), topPct: (dyf(s.per[id]) / DH * 100).toFixed(2) }; }).filter(Boolean);
+      const nomNow = arr[TODAY], nomEnd = arr[endI], realEnd = nomEnd / d.priceIndex[endI];
+      const a0 = alloc.find(a => a.id === id) || { w: 0 };
+      const grow = nomEnd - nomNow, growShare = totGrowth ? Math.max(0, Math.round(grow / totGrowth * 100)) : 0;
+      detail = { id, name: detA.name, color: detA.color, riskFree: !!detA.riskFree, valueStr: this.fmt(nomNow), rateStr: pctRate(this.effectiveReturn(detA, assets)), contribStr: this.fmt(detA.contrib || 0), allocPct: Math.round((a0.w || 0) * 100), endStr: this.fmt(nomEnd), realStr: this.fmt(realEnd), growthStr: (grow >= 0 ? '+' : '−') + this.fmtShort(Math.abs(grow)), growShare, dPast: this.sp(dpts.slice(0, TODAY + 1)), dFut: this.sp(dpts.slice(TODAY)), dArea: this.sp(dpts) + ' L' + DW + ',' + dBaseY + ' L0,' + dBaseY + ' Z', dDots, dTodayLeft: (dxf(TODAY) / DW * 100).toFixed(2), dTodayTop: (dyf(nomNow) / DH * 100).toFixed(2), dH: mob ? '200px' : '240px', history: snaps.slice().reverse().slice(0, 8).map(s => { const p = s.ym.split('-'); return { ym: MON[+p[1] - 1] + ' ' + p[0], valueStr: this.fmt(s.per[id] || 0), sample: !!s.sample }; }), onEdit: () => this.setState({ editing: { id: detA.id, name: detA.name, value: String(detA.value), rate: String(detA.rate), contrib: String(detA.contrib || 0), riskFree: !!detA.riskFree, color: detA.color } }) };
+    }
+    const themeClass = this.state.theme === 'dark' ? 'theme-dark' : '';
+    const userName = this.state.userName || 'Selin K.';
+    const userInitials = (userName.trim().split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0] || '').join('').toLocaleUpperCase('tr-TR')) || '·';
 
     return {
       rootStyle, mainStyle, contentStyle, navItems,
@@ -1645,10 +1970,39 @@ class Component extends DCLogic {
       riskState: ed && ed.riskFree ? 'Açık' : 'Kapalı',
       riskBtnStyle: "display:flex;align-items:center;justify-content:space-between;width:100%;border:1px solid " + (ed && ed.riskFree ? 'var(--teal)' : 'var(--line)') + ";background:" + (ed && ed.riskFree ? '#eef5f5' : 'var(--paper)') + ";border-radius:10px;padding:12px 13px;cursor:pointer;font-family:inherit",
       saveEf,
+
+      scAnalysis: screen === 'analysis', scAsset: screen === 'asset',
+      analysisNet: this.fmt(d.total[TODAY]), analysisHorizon: '+' + view + ' yıl',
+      donutSegs, divPct, divLabel, divPctStr: '%' + divPct,
+      divBarStyle: 'width:' + divPct + '%;height:100%;background:var(--teal);border-radius:99px;transition:width .4s ease',
+      topName, topPctStr: '%' + topPct,
+      contribBars,
+      bestName: bestAsset.name, bestRate: pctRate(bestAsset.rate), bestColor: bestAsset.color,
+      worstName: worstAsset.name, worstRate: pctRate(worstAsset.rate), worstColor: worstAsset.color,
+      annualContribStr: this.fmt(annualContrib), monthlyContribStr: this.fmt(d.monthlyTotal),
+      remainingGoalStr: this.fmt(remainingGoal), goalCoveredStr: '%' + goalCovered,
+      goalCoverBar: 'width:' + goalCovered + '%;height:100%;background:var(--green);border-radius:99px;transition:width .4s ease',
+      goalReached: remainingGoal <= 0, goalDurationText,
+      cfMonths, beatProbStr: '%' + d.beatInflationProbability,
+      realRows, realTotalRow, taxRate: this.state.taxRate,
+      onTaxRate: e => this.mutate({ taxRate: e.target.value.replace(/[^0-9.,]/g, '') }),
+      hasHist, histPath, histArea, histDots, histChangeStr, histChangePos, histChangePct, histFirst, histLast,
+      histChangeColor: histChangePos ? 'var(--green)' : 'var(--clay)', sampleHist, snapCount: snaps.length,
+      recordSnap: () => this.recordSnapshot(), clearSnaps: () => this.clearSnapshots(),
+      recordedThisMonth: snaps.some(s => !s.sample && s.ym === curYm),
+
+      detail, hasDetail: !!detail,
+      backFromDetail: () => this.setState({ screen: 'assets', detailId: null }),
+
+      themeClass, toggleTheme: () => this.mutate(s => ({ theme: s.theme === 'dark' ? 'light' : 'dark' })),
+      themeIcon: this.state.theme === 'dark' ? 'M12 3v2M12 19v2M5 12H3M21 12h-2M5.6 5.6 7 7M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4M12 8a4 4 0 100 8 4 4 0 000-8z' : 'M21 12.8A8.5 8.5 0 1111.2 3a6.5 6.5 0 009.8 9.8z',
+      themeLabel: this.state.theme === 'dark' ? 'Aydınlık mod' : 'Karanlık mod',
+      userName, userInitials, onUserName: e => this.mutate({ userName: e.target.value }),
     };
   }
 }
 </script>
+
 
 
 </body></html>
