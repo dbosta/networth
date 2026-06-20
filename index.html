@@ -397,6 +397,9 @@ input{font-family:inherit}
 .theme-dark.wealth-app [style*="background:#e8f1eb"]{background:rgba(79,181,133,.16)!important}
 .theme-dark.wealth-app [style*="background:#fbf1ec"]{background:rgba(209,138,110,.14)!important;border-color:rgba(209,138,110,.32)!important}
 .theme-dark.wealth-app [style*="background:#eef5f0"]{background:rgba(79,181,133,.16)!important;border-color:rgba(79,181,133,.32)!important}
+.theme-dark.wealth-app input,.theme-dark.wealth-app textarea,.theme-dark.wealth-app select{color:var(--ink)!important;caret-color:var(--green)!important}
+.theme-dark.wealth-app input::placeholder,.theme-dark.wealth-app textarea::placeholder{color:var(--faint)!important;opacity:1}
+.theme-dark.wealth-app input:-webkit-autofill{-webkit-text-fill-color:var(--ink)!important;box-shadow:0 0 0 1000px var(--paper) inset!important}
 </style>
 </helmet>
 
@@ -698,13 +701,13 @@ input{font-family:inherit}
               <div style="margin-top:16px;border:1px solid var(--line);border-radius:12px;background:var(--paper);padding:15px 16px">
                 <div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><div><div style="font-size:13px;font-weight:700">Nokta karşılaştırması</div><div style="font-size:10px;color:var(--muted);margin-top:2px">Tıklama sırasına göre B − A değişimi</div></div><button onclick="{{ clearCompare }}" style="border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:7px;padding:6px 9px;font-family:inherit;font-size:10px;font-weight:600;cursor:pointer">Temizle</button></div>
                 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:9px;margin-top:12px">
-                  <div style="border-left:3px solid var(--green);background:var(--card);border-radius:8px;padding:10px 12px"><div style="font-size:10px;color:var(--muted);font-weight:700">A · {{ comparePointA.date }}</div><div style="font-size:17px;font-weight:700;margin-top:3px">{{ comparePointA.value }}</div><div style="font-size:10px;color:var(--faint);margin-top:3px">Yatırılan {{ comparePointA.invested }}</div></div>
-                  <sc-if value="{{ compareReady }}" hint-placeholder-val="{{ false }}"><div style="border-left:3px solid var(--blue);background:var(--card);border-radius:8px;padding:10px 12px"><div style="font-size:10px;color:var(--muted);font-weight:700">B · {{ comparePointB.date }}</div><div style="font-size:17px;font-weight:700;margin-top:3px">{{ comparePointB.value }}</div><div style="font-size:10px;color:var(--faint);margin-top:3px">Yatırılan {{ comparePointB.invested }}</div></div></sc-if>
+                  <div style="border-left:3px solid var(--green);background:var(--card);border-radius:8px;padding:10px 12px"><div style="font-size:10px;color:var(--muted);font-weight:700">A · {{ comparePointA.date }}</div><div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-top:3px"><span style="font-size:17px;font-weight:700">{{ comparePointA.value }}</span><span style="font-size:10px;color:var(--muted);font-weight:600">≈ {{ comparePointA.crossValue }}</span></div><div style="font-size:10px;color:var(--faint);margin-top:3px">Yatırılan {{ comparePointA.invested }}</div></div>
+                  <sc-if value="{{ compareReady }}" hint-placeholder-val="{{ false }}"><div style="border-left:3px solid var(--blue);background:var(--card);border-radius:8px;padding:10px 12px"><div style="font-size:10px;color:var(--muted);font-weight:700">B · {{ comparePointB.date }}</div><div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-top:3px"><span style="font-size:17px;font-weight:700">{{ comparePointB.value }}</span><span style="font-size:10px;color:var(--muted);font-weight:600">≈ {{ comparePointB.crossValue }}</span></div><div style="font-size:10px;color:var(--faint);margin-top:3px">Yatırılan {{ comparePointB.invested }}</div></div></sc-if>
                 </div>
                 <sc-if value="{{ compareWaiting }}" hint-placeholder-val="{{ true }}"><div style="font-size:11px;color:var(--muted);margin-top:11px">B noktasını seçmek için grafikte ikinci bir tarihe tıkla.</div></sc-if>
                 <sc-if value="{{ compareReady }}" hint-placeholder-val="{{ false }}">
-                  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:8px;margin-top:10px"><div style="background:var(--card);border-radius:8px;padding:9px 11px"><div style="font-size:9px;color:var(--faint);text-transform:uppercase">Dönem</div><div style="font-size:13px;font-weight:700;margin-top:3px">{{ comparePeriod }}</div></div><div style="background:var(--card);border-radius:8px;padding:9px 11px"><div style="font-size:9px;color:var(--faint);text-transform:uppercase">Net değişim</div><div style="font-size:13px;font-weight:700;margin-top:3px">{{ compareChange }} · {{ compareChangePct }}</div></div><div style="background:var(--card);border-radius:8px;padding:9px 11px"><div style="font-size:9px;color:var(--faint);text-transform:uppercase">Yeni yatırım</div><div style="font-size:13px;font-weight:700;margin-top:3px">{{ compareInvested }}</div></div><div style="background:var(--card);border-radius:8px;padding:9px 11px"><div style="font-size:9px;color:var(--faint);text-transform:uppercase">Reel avantaj değişimi</div><div style="font-size:13px;font-weight:700;margin-top:3px">{{ compareInflationGap }}</div></div></div>
-                  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:7px;margin-top:10px"><sc-for list="{{ compareAssetRows }}" as="cr" hint-placeholder-count="5"><div style="display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--card);border-radius:7px;padding:8px 10px"><span style="display:flex;align-items:center;gap:6px;font-size:10px;color:var(--muted)"><span style="width:7px;height:7px;border-radius:2px;background:{{ cr.color }}"></span>{{ cr.name }}</span><span style="text-align:right;font-size:10px;font-weight:700">{{ cr.diff }}<br><span style="color:var(--faint);font-weight:500">{{ cr.pct }}</span></span></div></sc-for></div>
+                  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:8px;margin-top:10px"><div style="background:var(--card);border-radius:8px;padding:9px 11px"><div style="font-size:9px;color:var(--faint);text-transform:uppercase">Dönem</div><div style="font-size:13px;font-weight:700;margin-top:3px">{{ comparePeriod }}</div></div><div style="background:var(--card);border-radius:8px;padding:9px 11px"><div style="font-size:9px;color:var(--faint);text-transform:uppercase">Net değişim</div><div style="font-size:13px;font-weight:700;margin-top:3px">{{ compareChange }} · {{ compareChangePct }}</div></div><div style="background:var(--card);border-radius:8px;padding:9px 11px"><div style="font-size:9px;color:var(--faint);text-transform:uppercase">Yeni yatırım</div><div style="font-size:13px;font-weight:700;margin-top:3px">{{ compareInvested }}</div></div><div style="background:var(--card);border-radius:8px;padding:9px 11px"><div style="font-size:9px;color:var(--faint);text-transform:uppercase">{{ compareCrossLabel }}</div><div style="font-size:13px;font-weight:700;margin-top:3px">{{ compareCrossChange }}</div></div></div>
+                  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:7px;margin-top:10px"><sc-for list="{{ compareAssetRows }}" as="cr" hint-placeholder-count="5"><div style="display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--card);border-radius:7px;padding:8px 10px"><span style="display:flex;align-items:center;gap:6px;font-size:10px;color:var(--muted)"><span style="width:7px;height:7px;border-radius:2px;background:{{ cr.color }}"></span>{{ cr.name }}</span><span style="text-align:right;font-size:10px"><span style="color:var(--faint)">Eski {{ cr.start }}</span><br><span style="font-weight:700;color:var(--ink)">Artış {{ cr.diff }}</span><span style="color:var(--faint);font-weight:500"> · {{ cr.pct }}</span></span></div></sc-for></div>
                 </sc-if>
               </div>
             </sc-if>
@@ -1655,12 +1658,20 @@ class Component extends DCLogic {
     const tipRows = d.META.map(a => ({ name: a.name, color: a.color, val: this.fmt(d.per[a.key][hidx]) }));
     const ca = this.state.compareA == null ? null : Math.min(this.state.compareA, N - 1);
     const cb = this.state.compareB == null ? null : Math.min(this.state.compareB, N - 1);
+    const crossMoney = n => {
+      const rate = this.rate();
+      if (!rate) return 'Kur bilgisi yok';
+      return this.state.priceMode === 'usd'
+        ? '₺' + Math.round(n).toLocaleString('tr-TR')
+        : '$' + Math.round(n / rate).toLocaleString('en-US');
+    };
+    const signedCrossMoney = n => (n >= 0 ? '+' : '−') + crossMoney(Math.abs(n));
     const pointInfo = (idx, label) => {
       if (idx == null) return null;
       const date = d.dateAt(idx);
       return {
         label, idx, date: MON[date.getMonth()] + ' ' + date.getFullYear(),
-        value: this.fmt(d.total[idx]), invested: this.fmt(d.invested[idx]), inflation: this.fmt(d.inflArr[idx]),
+        value: this.fmt(d.total[idx]), crossValue: crossMoney(d.total[idx]), invested: this.fmt(d.invested[idx]), inflation: this.fmt(d.inflArr[idx]),
         pct: (idx / (N - 1) * 100).toFixed(2), x: d.X(idx).toFixed(1), y: d.Y(d.total[idx]).toFixed(1),
       };
     };
@@ -1673,7 +1684,7 @@ class Component extends DCLogic {
     const compareMonths = compareReady ? cb - ca : 0;
     const compareAssetRows = compareReady ? d.META.map(a => {
       const diff = d.per[a.key][cb] - d.per[a.key][ca];
-      return { name: a.name, color: a.color, diff: signedMoney(diff), pct: signedPct(d.per[a.key][ca] ? diff / d.per[a.key][ca] * 100 : 0) };
+      return { name: a.name, color: a.color, start: this.fmt(d.per[a.key][ca]), diff: signedMoney(diff), pct: signedPct(d.per[a.key][ca] ? diff / d.per[a.key][ca] * 100 : 0) };
     }) : [];
     const compareClick = e => {
       const r = e.currentTarget.getBoundingClientRect();
@@ -1941,7 +1952,8 @@ class Component extends DCLogic {
       compareChange: signedMoney(compareChange), compareChangePct: signedPct(comparePct),
       comparePeriod: compareReady ? (compareMonths >= 0 ? '+' : '−') + Math.abs(compareMonths) + ' ay' : '',
       compareInvested: compareReady ? signedMoney(d.invested[cb] - d.invested[ca]) : '',
-      compareInflationGap: compareReady ? signedMoney((d.total[cb] - d.inflArr[cb]) - (d.total[ca] - d.inflArr[ca])) : '',
+      compareCrossLabel: this.state.priceMode === 'usd' ? 'TL cinsinden artış' : 'Döviz cinsinden artış',
+      compareCrossChange: compareReady ? signedCrossMoney(compareChange) : '',
       clearCompare: () => this.setState({ compareA: null, compareB: null }),
 
       proj: this.fmtShort(d.total[N - 1]),
