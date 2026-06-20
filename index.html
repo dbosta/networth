@@ -591,9 +591,16 @@ input{font-family:inherit}
           <div style="font-size:13px;color:var(--muted);margin-bottom:16px;max-width:580px;text-wrap:pretty">Süre, senaryo ve enflasyon patikasını değiştir; net varlığının gelişimini ve enflasyona karşı reel durumunu gör.</div>
 
           <div style="border:1px solid var(--line);border-radius:14px;background:var(--card);padding:20px 22px">
-            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
-              <div style="font-size:14px;font-weight:600">Net varlık projeksiyonu</div>
-              <div style="display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px">
+              <div>
+                <div style="font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:700">Bugünkü net varlık</div>
+                <div style="display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-top:7px">
+                  <span style="font-family:Spectral,serif;font-size:{{ projectionHeroSize }};line-height:.95;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap">{{ currentNetWorth }}</span>
+                  <span style="display:inline-flex;align-items:center;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700;margin-bottom:4px;{{ monthlyExpectedStyle }}">{{ monthlyExpectedPct }}</span>
+                </div>
+                <div style="font-size:12px;color:var(--muted);margin-top:8px"><b style="color:var(--ink)">+1 ay sonra {{ nextMonthNetWorth }}</b> · katkı dahil beklenen aylık artış</div>
+              </div>
+              <div style="display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-left:auto">
                 <button onclick="{{ showTotal }}" style="{{ btnTotalStyle }}">Toplam</button>
                 <button onclick="{{ showBreak }}" style="{{ btnBreakStyle }}">Kırılım</button>
               </div>
@@ -1930,6 +1937,11 @@ class Component extends DCLogic {
 
       assets: assetRows, cardCols: mob ? '1fr' : 'repeat(auto-fill,minmax(290px,1fr))', noAssets: assets.length === 0,
       totalValueStr: this.fmt(heroTotal),
+      currentNetWorth: this.fmt(d.total[TODAY]),
+      nextMonthNetWorth: this.fmt(d.total[Math.min(TODAY + 1, N - 1)]),
+      monthlyExpectedPct: (d.total[Math.min(TODAY + 1, N - 1)] >= d.total[TODAY] ? '▲ ' : '▼ ') + '%' + Math.abs(d.total[TODAY] ? (d.total[Math.min(TODAY + 1, N - 1)] / d.total[TODAY] - 1) * 100 : 0).toFixed(1).replace('.', ','),
+      monthlyExpectedStyle: d.total[Math.min(TODAY + 1, N - 1)] >= d.total[TODAY] ? 'background:#e8f1eb;color:var(--green)' : 'background:#fbf1ec;color:var(--clay)',
+      projectionHeroSize: mob ? '34px' : '46px',
 
       area: d.area, past: d.past, fut: d.fut, inflPath: d.inflPath, inflBand: d.inflBand, investedPath: d.investedPath, band: d.band,
       layers: d.layers, ylabels: d.ylabels, xticks: d.xticks,
